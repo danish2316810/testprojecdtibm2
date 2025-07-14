@@ -1,0 +1,35 @@
+GET http://localhost:4004/odata/v4/MyServiceMain/$metadata
+###
+GET http://localhost:4004/odata/v4/MyServiceMain/CUST
+###
+POST http://localhost:4004/odata/v4/MyServiceMain/CUST
+Content-Type: application/json
+
+{
+  "CUSTOMER_NAME": "dan",
+  "CURRENCY": "inr",
+  "COUNTRY": "india"
+}
+###
+PUT http://localhost:4004/odata/v4/MyServiceMain/CUST(8e0b26ee-2c6c-45ca-b402-fc5214dbe592)
+Content-Type: application/json
+
+{
+  
+  "CUSTOMER_NAME": "dan1",
+  "CURRENCY": "inr",
+  "COUNTRY": "india"
+}
+
+###
+POST http://localhost:4004/odata/v4/MyServiceMain/SO
+Content-Type: application/json
+
+{
+  
+  "salesOrderId": "SO9001",
+  "salesOrderValue": "9999",
+  "date": "2025-07-11",
+  "customersUUID": "ea16ab99-efed-4b7a-962e-c3182ed08f27"  
+}
+

@@ -1,0 +1,26 @@
+<mvc:View controllerName="ap.actionui.controller.View1"
+    xmlns:mvc="sap.ui.core.mvc"
+    xmlns="sap.m"
+    xmlns:f="sap.ui.layout.form">
+    <Page id="page" title="{i18n>title}">
+    <subHeader>
+            <Toolbar>
+                <ToolbarSpacer />
+                <Button text="Submit" press="onPress"/>
+            </Toolbar>
+     </subHeader>
+        <f:SimpleForm>
+          <Label text="company"></Label>
+          <Input id="idName" width="280px"></Input>
+
+          <Label text="Currenchy"></Label>
+          <Input id="idCurrency" width="280px"></Input>
+
+          <Label text="Country"></Label>
+          <Input id="idCountry" width="280px"></Input>
+          
+        
+        </f:SimpleForm>
+        
+    </Page>
+</mvc:View>
