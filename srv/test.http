@@ -1,3 +1,17 @@
+
+
+POST http://localhost:4004/odata/v4/MyServiceMain/insertDataIntoDb
+Content-Type: application/json
+
+{
+  "data": {
+    "idCheck":"123",
+    "checkName": true,
+    "checkStatus": "Passed",
+    "checkBY": "Danish"
+  }
+}
+###
 GET http://localhost:4004/odata/v4/MyServiceMain/$metadata
 ###
 GET http://localhost:4004/odata/v4/MyServiceMain/CUST
