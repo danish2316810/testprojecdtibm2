@@ -23,7 +23,8 @@
     "watch-actionui": "cds watch --open actionui/webapp/index.html?sap-ui-xx-viewCache=false",
     "undeploy": "cf undeploy testprojectibm --delete-services --delete-service-keys --delete-service-brokers",
     "build": "rimraf resources mta_archives && mbt build --mtar archive",
-    "deploy": "cf deploy mta_archives/archive.mtar --retries 1"
+    "deploy": "cf deploy mta_archives/archive.mtar --retries 1",
+    "watch-list-report-for-internalisation": "cds watch --open list-report-for-internalisation/webapp/index.html?sap-ui-xx-viewCache=false"
   },
   "cds": {
     "requires": {
@@ -36,5 +37,8 @@
     "sql": {
       "native_hana_associations": false
     }
-  }
+  },
+  "sapux": [
+    "app/list-report-for-internalisation"
+  ]
 }

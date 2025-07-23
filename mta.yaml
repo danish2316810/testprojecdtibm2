@@ -63,9 +63,23 @@ modules:
       - apactionui.zip
       name: apactionui
       target-path: app/
+    - artifacts:
+      - applistreportforinternalisation.zip
+      name: applistreportforinternalisation
+      target-path: app/
 - name: apactionui
   type: html5
   path: app/actionui
+  build-parameters:
+    build-result: dist
+    builder: custom
+    commands:
+    - npm install
+    - npm run build:cf
+    supported-platforms: []
+- name: applistreportforinternalisation
+  type: html5
+  path: app/list-report-for-internalisation
   build-parameters:
     build-result: dist
     builder: custom
