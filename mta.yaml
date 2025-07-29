@@ -67,6 +67,10 @@ modules:
       - applistreportforinternalisation.zip
       name: applistreportforinternalisation
       target-path: app/
+    - artifacts:
+      - appdanappdancontracterrors.zip
+      name: appdanappdancontracterrors
+      target-path: app/
 - name: apactionui
   type: html5
   path: app/actionui
@@ -80,6 +84,16 @@ modules:
 - name: applistreportforinternalisation
   type: html5
   path: app/list-report-for-internalisation
+  build-parameters:
+    build-result: dist
+    builder: custom
+    commands:
+    - npm install
+    - npm run build:cf
+    supported-platforms: []
+- name: appdanappdancontracterrors
+  type: html5
+  path: app/app-dan-contracterrors
   build-parameters:
     build-result: dist
     builder: custom

@@ -1,4 +1,4 @@
-using  app from '../../db';
+using  app.dan as app from '../../db/';
 @path:'MyServiceMain'
 service MyService {
 

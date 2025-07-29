@@ -1,4 +1,4 @@
-namespace app;
+namespace app.dan;
 using { cuid } from '@sap/cds/common';
 
 

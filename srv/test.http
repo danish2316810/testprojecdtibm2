@@ -5,7 +5,7 @@ Content-Type: application/json
 
 {
   "data": {
-    "idCheck":"123",
+    "idCheck":"124",
     "checkName": true,
     "checkStatus": "Passed",
     "checkBY": "Danish"

@@ -24,11 +24,11 @@
     "undeploy": "cf undeploy testprojectibm --delete-services --delete-service-keys --delete-service-brokers",
     "build": "rimraf resources mta_archives && mbt build --mtar archive",
     "deploy": "cf deploy mta_archives/archive.mtar --retries 1",
-    "watch-list-report-for-internalisation": "cds watch --open list-report-for-internalisation/webapp/index.html?sap-ui-xx-viewCache=false"
+    "watch-list-report-for-internalisation": "cds watch --open list-report-for-internalisation/webapp/index.html?sap-ui-xx-viewCache=false",
+    "watch-app-dan-contracterrors": "cds watch --open app-dan-contracterrors/webapp/index.html?sap-ui-xx-viewCache=false"
   },
   "cds": {
     "requires": {
-      
       "db": "hana",
       "connectivity": true,
       "destinations": true,
@@ -39,6 +39,8 @@
     }
   },
   "sapux": [
-    "app/list-report-for-internalisation"
+    "app/list-report-for-internalisation",
+    "app/app-dan-contracterrors",
+    "app/app-dan-contracterrors"
   ]
 }

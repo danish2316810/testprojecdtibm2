@@ -1,5 +1,5 @@
-  namespace app;
-  using { app.CUSTOMERS } from './index';
+  namespace app.dan;
+  using { app.dan.CUSTOMERS } from './index';
 
   using { cuid } from '@sap/cds/common';
 
