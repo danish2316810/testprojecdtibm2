@@ -11,7 +11,8 @@ class MyService extends cds.ApplicationService{
         // CUST is exactly the same exposed entity that is there in customer-srv.cds file
         const { CUST  }= this.entities;
         this.on('CREATE', CUST , createCustomer);
-        this.on('insertDataIntoDb', insertDataIntoDb)
+        this.on('insertDataIntoDb', insertDataIntoDb);
+       
         return super.init()
     }
 }
