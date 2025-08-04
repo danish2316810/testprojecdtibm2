@@ -57,8 +57,9 @@ Content-Type: application/json
       "errorCode":"99",
       "fields":[
         {"keys":"ID","value":"001"},
-        {"keys":"terminalNo","value":"T002"},
-        {"keys":"folioMo","value":"12"}
+        {"keys":"terminalNo","value":"T001"},
+        {"keys":"folioMo","value":"12"},
+        {"keys":"invNo","value":"IN21"}
 
       ]
     }

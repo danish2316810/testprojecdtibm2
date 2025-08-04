@@ -8,16 +8,27 @@ async function onCreateErrorRecord(req) {
       const {data}=req.data
       const cdsEntityList=cds.entities("app.dan");
       const errorPayload=await formErrorData(data.interface,data.fields,cdsEntityList);
+      let x=errorPayload.cdsEntityFullName
       const interfaceData=cdsEntityList.InterfaceData;
-      const isFieldMatch= validateErrorFields(errorPayload)
+      const isFieldsMatch= validateErrorFields(errorPayload)
+      let returnRes=""
+      if (isFieldsMatch.bNoError) {       
+        let tableName=x.split(".")
+            tableName=tableName[tableName.length-1]
+            returnRes=await createErrorDataInTable(req,tableName,errorPayload,interfaceData)
+        console.log(tableName)
+        
+        // return isFieldMatch;  // ✅ RETURN TO SENDER (e.g., Fiori, postman, etc.)
+      }else(
+        req.error(isFieldsMatch.error)
+      )
   
-    
-      
+            
     }catch(error){
-
+      return { error: error.message }; 
     }
 }
-async function validateErrorFields(errorPayload ) {
+function validateErrorFields(errorPayload ) {
   let isFieldMatch={}
   if(errorPayload.cdsEntityFullName){
     const cdsEntityFieldsObject=errorPayload.cdsEntityFieldsObject;
@@ -43,7 +54,7 @@ async function validateErrorFields(errorPayload ) {
   return isFieldMatch;  
 }
 
-async function validateValueOfErrorPayload(errorPayload) {
+function validateValueOfErrorPayload(errorPayload) {
   const isFieldsHasValue={}
   const cdsEntityFieldsObject=errorPayload.cdsEntityFieldsObject;
   const payloadData=errorPayload.payloaddata;
@@ -52,25 +63,40 @@ async function validateValueOfErrorPayload(errorPayload) {
   const autogenCodeAssinValues=["ID", "interfaceUUID"]
   isFieldsHasValue.bNoError=true;
   cdsEntitykeys.forEach(item=>{
-    if(cdsEntityFieldsObject[item]){
+    if(cdsEntityFieldsObject[item]){       //results into UUID, STRING, INTERGER,datetime
+      // HERE WE ARE GETTING THE SKIP FIELDS FROM LIST OF CDS ENTITY i.e. contract table
       const isSkipField=autogenCodeAssinValues.find(item1=>{
-        if(item1===cdsEntityFieldsObject[item].name){
-          return true;
-        }else{
+        if(item1===cdsEntityFieldsObject[item].name){ //each cdsEntityFieldsName are checked
+          return true;                                //against ID OR UUID
+        }else{                                  //the skipping is later used in the validateValue function
           return false;
         }
 
-      })
-      if(cdsEntityFieldsObject[item].hasOwnProperty("key")){
-        validateValue(cdsEntityFieldsObject,payloadData,item,isFieldsHasValue,isSkipField,)
-      }else if(cdsEntityFieldsObject[item].hasOwnProperty("notNull")&& cdsEntityFieldsObject[item]!=="cds.Association"){
-        validateValue()
+        })
+        if(cdsEntityFieldsObject[item].hasOwnProperty("key")){
+          console.log(cdsEntityFieldsObject[item].hasOwnProperty("key"))
+        validateValue(cdsEntityFieldsObject,payloadData,item,isFieldsHasValue,isSkipField)
+        }else if(cdsEntityFieldsObject[item].hasOwnProperty("notNull")&& cdsEntityFieldsObject[item]!=="cds.Association"){
+        validateValue(cdsEntityFieldsObject,payloadData,item,isFieldsHasValue,isSkipField)
       }
     }
   })
-  
+  return isFieldsHasValue;
 }
-async function validateValue(cdsEntityFieldsObject,payloadData,item,isFieldsHasValue,isSkipField) {
+function validateValue(cdsEntityFieldsObject,payloadData,item,isFieldsHasValue,isSkipField) {
+  if(isSkipField){
+    //dont do anything
+  }else if(payloadData.hasOwnProperty(cdsEntityFieldsObject[item].name)){
+    const value = payloadData[cdsEntityFieldsObject[item].name];
+
+    if(value===null ||value===undefined ||value.length<1 ){
+      isFieldsHasValue.bNoError=false;
+      isFieldsHasValue.error=`${cdsEntityFieldsObject[item].name} is a required value`    
+    } 
+  }else{
+    isFieldsHasValue.bNoError=false;
+      isFieldsHasValue.error=`${cdsEntityFieldsObject[item].name} is a required value`
+   }
 
   
 }
