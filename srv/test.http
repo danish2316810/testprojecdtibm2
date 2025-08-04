@@ -55,6 +55,9 @@ Content-Type: application/json
       "source":"TMS",
       "interface":"Contract",
       "errorCode":"99",
+      "iFlowName":"i01",
+      "httpErrorCode":"32",
+      "enabledForReprocessing":"Y",
       "fields":[
         {"keys":"ID","value":"001"},
         {"keys":"terminalNo","value":"T001"},

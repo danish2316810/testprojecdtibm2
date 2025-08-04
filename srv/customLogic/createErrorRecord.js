@@ -1,4 +1,7 @@
-const cds = require("@sap/cds")
+const cds = require("@sap/cds");
+const { uuid } = require("@sap/cds/lib/utils/cds-utils");
+const { INSERT, SELECT } = cds.ql;
+
 
 
 module.exports=onCreateErrorRecord
@@ -16,18 +19,57 @@ async function onCreateErrorRecord(req) {
         let tableName=x.split(".")
             tableName=tableName[tableName.length-1]
             returnRes=await createErrorDataInTable(req,tableName,errorPayload,interfaceData)
-        console.log(tableName)
-        
-        // return isFieldMatch;  // ✅ RETURN TO SENDER (e.g., Fiori, postman, etc.)
       }else(
         req.error(isFieldsMatch.error)
       )
+      return returnRes;
   
             
     }catch(error){
       return { error: error.message }; 
     }
 }
+
+async function createErrorDataInTable(req,tableName,interfaceData){
+ 
+  try {
+    const interfaceDataCreationObjcet=await createInterfaceData(req,tableName,errorPayload,interfaceData)
+     errorPayload.payloaddata.interfaceUUID=interfaceDataCreationObjcet.interfaceUUID
+      console.log(errorPayload.cdsEntityFullName, errorPayload.payloaddata)
+     const newRecord=await INSERT.into(errorPayload.cdsEntityFullName, errorPayload.payloaddata)
+    
+    return newRecord;
+  } catch (err) {
+    req.error(500, 'Internal Server Error: ' + err.message);
+  }
+}
+
+async function createInterfaceData(req,tableName,errorPayload,interfaceData) {
+  let crtInterfaceAndObject={}
+  const {data}= req.data;
+  let enabledForReprocessingValue=false;
+  if(data.enabledForReprocessing==="Y"){
+    enabledForReprocessingValue===true;
+  }
+  if(data.payload){
+    const interfaceData1={
+      "ID":uuid.v4(),
+      "sourceSystem":data.sourceSystem,
+      "iFlowName":data.iFlowName,
+      "error_errorCode":data.errorCode,
+      "httpErrorCode":data.httpErrorCode,
+      "techTableName":tableName,
+      "enabledForReprocessing":enabledForReprocessingValue
+    }
+  }
+  crtInterfaceAndObject=await INSERT.into(interfaceData.name, interfaceData1)
+}
+
+
+
+
+
+
 function validateErrorFields(errorPayload ) {
   let isFieldMatch={}
   if(errorPayload.cdsEntityFullName){
