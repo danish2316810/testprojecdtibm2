@@ -11,6 +11,9 @@ service ErrorMangement {
     source:String;
     interface:String;
     errorCode:String;
+    iFlowName:String;
+    httpErrorCode:String;
+    enabledForReprocessing:String;
     fields:array of {
       keys:String;
       value:String;

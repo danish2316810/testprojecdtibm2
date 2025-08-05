@@ -1,5 +1,5 @@
 const cds = require("@sap/cds");
-const { uuid } = require("@sap/cds/lib/utils/cds-utils");
+const uuid = require('uuid');
 const { INSERT, SELECT } = cds.ql;
 
 
@@ -12,13 +12,13 @@ async function onCreateErrorRecord(req) {
       const cdsEntityList=cds.entities("app.dan");
       const errorPayload=await formErrorData(data.interface,data.fields,cdsEntityList);
       let x=errorPayload.cdsEntityFullName
-      const interfaceData=cdsEntityList.InterfaceData;
+      const interfaceEntity=cdsEntityList.InterfaceData;
       const isFieldsMatch= validateErrorFields(errorPayload)
       let returnRes=""
       if (isFieldsMatch.bNoError) {       
         let tableName=x.split(".")
             tableName=tableName[tableName.length-1]
-            returnRes=await createErrorDataInTable(req,tableName,errorPayload,interfaceData)
+            returnRes=await createErrorDataInTable(req,tableName,errorPayload,interfaceEntity)
       }else(
         req.error(isFieldsMatch.error)
       )
@@ -30,11 +30,11 @@ async function onCreateErrorRecord(req) {
     }
 }
 
-async function createErrorDataInTable(req,tableName,interfaceData){
+async function createErrorDataInTable(req,tableName,errorPayload,interfaceEntity){
  
   try {
-    const interfaceDataCreationObjcet=await createInterfaceData(req,tableName,errorPayload,interfaceData)
-     errorPayload.payloaddata.interfaceUUID=interfaceDataCreationObjcet.interfaceUUID
+    const interfaceDataCreationObjcet=await createInterfaceData(req,tableName,errorPayload,interfaceEntity)
+     errorPayload.payloaddata.interfaceUUID=interfaceDataCreationObjcet
       console.log(errorPayload.cdsEntityFullName, errorPayload.payloaddata)
      const newRecord=await INSERT.into(errorPayload.cdsEntityFullName, errorPayload.payloaddata)
     
@@ -44,16 +44,17 @@ async function createErrorDataInTable(req,tableName,interfaceData){
   }
 }
 
-async function createInterfaceData(req,tableName,errorPayload,interfaceData) {
+async function createInterfaceData(req,tableName,errorPayload,interfaceEntity) {
   let crtInterfaceAndObject={}
   const {data}= req.data;
   let enabledForReprocessingValue=false;
   if(data.enabledForReprocessing==="Y"){
-    enabledForReprocessingValue===true;
+    enabledForReprocessingValue=true;
   }
-  if(data.payload){
+  const generatedUUID = uuid.v4();
+  
     const interfaceData1={
-      "ID":uuid.v4(),
+      "ID":generatedUUID,
       "sourceSystem":data.sourceSystem,
       "iFlowName":data.iFlowName,
       "error_errorCode":data.errorCode,
@@ -61,8 +62,10 @@ async function createInterfaceData(req,tableName,errorPayload,interfaceData) {
       "techTableName":tableName,
       "enabledForReprocessing":enabledForReprocessingValue
     }
-  }
-  crtInterfaceAndObject=await INSERT.into(interfaceData.name, interfaceData1)
+    crtInterfaceAndObject=await INSERT.into(interfaceEntity.name, interfaceData1)
+  
+  
+  return generatedUUID;
 }
 
 
