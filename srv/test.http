@@ -59,7 +59,7 @@ Content-Type: application/json
       "httpErrorCode":"32",
       "enabledForReprocessing":"Y",
       "fields":[
-        {"keys":"ID","value":"002"},
+        {"keys":"ID","value":"003"},
         {"keys":"terminalNo","value":"T002"},
         {"keys":"folioMo","value":"13"},
         {"keys":"invNo","value":"IN22"}

@@ -1,4 +1,13 @@
 <core:FragmentDefinition xmlns:core="sap.ui.core" xmlns="sap.m">
+    <Button
+        core:require="{handler:'app/dan/appdancontracterrors/ext/controller/CustomFields'}"
+        id="idBtn2"
+        text="Reprocess"
+        press="handler.onReprocessBtn"
+        visible="{=${enabledForReprocessing}===true}"
+    />
+
+
 
 
 </core:FragmentDefinition>

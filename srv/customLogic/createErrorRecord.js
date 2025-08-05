@@ -1,4 +1,5 @@
 const cds = require("@sap/cds");
+const { UUID } = require("@sap/cds/lib/core/classes");
 const uuid = require('uuid');
 const { INSERT, SELECT } = cds.ql;
 
@@ -19,9 +20,11 @@ async function onCreateErrorRecord(req) {
         let tableName=x.split(".")
             tableName=tableName[tableName.length-1]
             returnRes=await createErrorDataInTable(req,tableName,errorPayload,interfaceEntity)
-      }else(
+      }else{
         req.error(isFieldsMatch.error)
-      )
+      }
+        
+      
       return returnRes;
   
             
@@ -33,12 +36,15 @@ async function onCreateErrorRecord(req) {
 async function createErrorDataInTable(req,tableName,errorPayload,interfaceEntity){
  
   try {
-    const interfaceDataCreationObjcet=await createInterfaceData(req,tableName,errorPayload,interfaceEntity)
-     errorPayload.payloaddata.interfaceUUID=interfaceDataCreationObjcet
+    const {UUID, createdInterfaceData }=await createInterfaceData(req,tableName,errorPayload,interfaceEntity)
+    if(createdInterfaceData){
+      errorPayload.payloaddata.interfaceUUID=UUID
       console.log(errorPayload.cdsEntityFullName, errorPayload.payloaddata)
      const newRecord=await INSERT.into(errorPayload.cdsEntityFullName, errorPayload.payloaddata)
     
     return newRecord;
+    } 
+    
   } catch (err) {
     req.error(500, 'Internal Server Error: ' + err.message);
   }
@@ -51,8 +57,7 @@ async function createInterfaceData(req,tableName,errorPayload,interfaceEntity) {
   if(data.enabledForReprocessing==="Y"){
     enabledForReprocessingValue=true;
   }
-  const generatedUUID = uuid.v4();
-  
+    const generatedUUID = uuid.v4();  
     const interfaceData1={
       "ID":generatedUUID,
       "sourceSystem":data.sourceSystem,
@@ -65,13 +70,8 @@ async function createInterfaceData(req,tableName,errorPayload,interfaceEntity) {
     crtInterfaceAndObject=await INSERT.into(interfaceEntity.name, interfaceData1)
   
   
-  return generatedUUID;
+  return {UUID:generatedUUID, createdInterfaceData:crtInterfaceAndObject};
 }
-
-
-
-
-
 
 function validateErrorFields(errorPayload ) {
   let isFieldMatch={}
