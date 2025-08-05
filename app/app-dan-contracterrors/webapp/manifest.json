@@ -126,22 +126,31 @@
               "controlConfiguration": {
                 "@com.sap.vocabularies.UI.v1.LineItem": {
                   "tableSettings": {
-                    "type": "ResponsiveTable"
+                    "type": "ResponsiveTable",
+                    "personalization": {
+                      "column": true
+                    }
                   },
-                  "columns":{
-                    "ReProcess":{
-                      "header":"action",
-                      "availability":"Default",
-                      "position":{
-                        
-                        "anchor":"DataField::reprocessCount"
+                  "columns": {
+                    "ReProcess": {
+                      "header": "action",
+                      "availability": "Default",
+                      "position": {
+                        "anchor": "DataField::reprocessCount"
                       },
-                      "properties":[
-                        
-                      ],
-                      "template":"app.dan.appdancontracterrors.ext.fragments.ReProcess"
-                        
-                      
+                      "template": "app.dan.appdancontracterrors.ext.fragments.ReProcess"
+                    }
+                  }
+                }
+              },
+              "content": {
+                "header": {
+                  "actions": {
+                    "idaction": {
+                      "press": "app.dan.appdancontracterrors.ext.controller.Tion.onPressAction",
+                      "visible": true,
+                      "enabled": true,
+                      "text": "new action"
                     }
                   }
                 }

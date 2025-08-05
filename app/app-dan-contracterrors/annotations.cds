@@ -1,5 +1,10 @@
 using ErrorMangement as service from '../../srv/catalogsService/errorManage-service';
 annotate service.ContractErrorsView with @(
+    UI.SelectionFields : [
+        terminalNo,
+        folioMo,
+       
+    ],
     UI.FieldGroup #GeneratedGroup : {
         $Type : 'UI.FieldGroupType',
         Data : [
