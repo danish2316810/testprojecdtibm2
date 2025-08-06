@@ -1,0 +1,11 @@
+<core:FragmentDefinition xmlns:core="sap.ui.core" xmlns="sap.m">
+    <Link
+        core:require="{handler:'app/dan/appdancontracterrors/ext/controller/Error'}"
+        id="idErrorCode"
+        text="{path:'errorCode'}"
+        press="handler.onErrorCodePress"/>
+
+
+
+
+</core:FragmentDefinition>

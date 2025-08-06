@@ -54,14 +54,14 @@ Content-Type: application/json
     "data": {
       "source":"TMS",
       "interface":"Contract",
-      "errorCode":"99",
+      "errorCode":"1",
       "iFlowName":"i01",
       "httpErrorCode":"32",
       "enabledForReprocessing":"Y",
       "fields":[
-        {"keys":"ID","value":"003"},
-        {"keys":"terminalNo","value":"T002"},
-        {"keys":"folioMo","value":"13"},
+        {"keys":"ID","value":"004"},
+        {"keys":"terminalNo","value":"T003"},
+        {"keys":"folioMo","value":"14"},
         {"keys":"invNo","value":"IN22"}
 
       ]

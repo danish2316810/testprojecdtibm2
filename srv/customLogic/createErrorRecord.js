@@ -60,7 +60,7 @@ async function createInterfaceData(req,tableName,errorPayload,interfaceEntity) {
     const generatedUUID = uuid.v4();  
     const interfaceData1={
       "ID":generatedUUID,
-      "sourceSystem":data.sourceSystem,
+      "sourceSystem":data.source,
       "iFlowName":data.iFlowName,
       "error_errorCode":data.errorCode,
       "httpErrorCode":data.httpErrorCode,

@@ -5,88 +5,17 @@ annotate service.ContractErrorsView with @(
         folioMo,
        
     ],
-    UI.FieldGroup #GeneratedGroup : {
-        $Type : 'UI.FieldGroupType',
-        Data : [
-            {
-                $Type : 'UI.DataField',
-                Label : 'terminalNo',
-                Value : terminalNo,
-            },
-            {
-                $Type : 'UI.DataField',
-                Label : 'folioMo',
-                Value : folioMo,
-            },
-            {
-                $Type : 'UI.DataField',
-                Label : 'invNo',
-                Value : invNo,
-            },
-            {
-                $Type : 'UI.DataField',
-                Label : 'lastRetry',
-                Value : lastRetry,
-            },
-            {
-                $Type : 'UI.DataField',
-                Label : 'reprocessCount',
-                Value : reprocessCount,
-            },
-            {
-                $Type : 'UI.DataField',
-                Label : 'errorCode',
-                Value : errorCode,
-            },
-            {
-                $Type : 'UI.DataField',
-                Label : 'errorDesc',
-                Value : errorDesc,
-            },
-            {
-                $Type : 'UI.DataField',
-                Label : 'errorEnabledForReprocessing',
-                Value : errorEnabledForReprocessing,
-            },
-            {
+   
+
+    UI.LineItem : [
+        {
                 $Type : 'UI.DataField',
                 Label : 'sourceSystem',
                 Value : sourceSystem,
             },
-            {
-                $Type : 'UI.DataField',
-                Label : 'enabledForReprocessing',
-                Value : enabledForReprocessing,
-            },
-            {
-                $Type : 'UI.DataField',
-                Label : 'httpErroMessage',
-                Value : httpErroMessage,
-            },
-            {
-                $Type : 'UI.DataField',
-                Label : 'httpErrorCode',
-                Value : httpErrorCode,
-            },
-            {
-                $Type : 'UI.DataField',
-                Label : 'interfaceEnabledForReprocessing',
-                Value : interfaceEnabledForReprocessing,
-            },
-        ],
-    },
-    UI.Facets : [
-        {
-            $Type : 'UI.ReferenceFacet',
-            ID : 'GeneratedFacet1',
-            Label : 'General Information',
-            Target : '@UI.FieldGroup#GeneratedGroup',
-        },
-    ],
-    UI.LineItem : [
         {
             $Type : 'UI.DataField',
-            Label : 'terminalNo',
+            Label : '{i18n>TerminalNo}',
             Value : terminalNo,
         },
         {
@@ -112,3 +41,71 @@ annotate service.ContractErrorsView with @(
     ],
 );
 
+annotate service.ContractErrorsView with {
+    errorCode @UI.Hidden;
+    errorDesc @UI.Hidden;
+    errorEnabledForReprocessing @UI.Hidden;
+};
+
+// object page
+annotate service.ContractErrorsView with @(UI:{
+    HeaderInfo  : {
+        
+        TypeName : 'ContractError',
+        TypeNamePlural : 'ContractErrors',
+        Title:{$Type:'UI.DataField', Value:terminalNo}
+    },
+    Facets : [
+        {
+            $Type : 'UI.ReferenceFacet',
+            ID : 'GeneratedFacet1',
+            Label : 'General Information',
+            Target : '@UI.FieldGroup#GeneratedGroup',
+        },
+    ],
+     FieldGroup #GeneratedGroup : {
+        $Type : 'UI.FieldGroupType',
+        Data : [
+            {
+                $Type : 'UI.DataField',
+                Label : 'terminalNo',
+                Value : terminalNo,
+            },
+            {
+                $Type : 'UI.DataField',
+                Label : 'folioMo',
+                Value : folioMo,
+            },
+            {
+                $Type : 'UI.DataField',
+                Label : 'invNo',
+                Value : invNo,
+            },
+           
+            {
+                $Type : 'UI.DataField',
+                Label : 'sourceSystem',
+                Value : sourceSystem,
+            },
+           
+            {
+                $Type : 'UI.DataField',
+                Label : 'httpErroMessage',
+                Value : httpErroMessage,
+            },
+            {
+                $Type : 'UI.DataField',
+                Label : 'httpErrorCode',
+                Value : httpErrorCode,
+            },
+            {
+                $Type : 'UI.DataField',
+                Label : 'interfaceEnabledForReprocessing',
+                Value : interfaceEnabledForReprocessing,
+            },
+        ],
+    },
+    
+   
+},
+);
