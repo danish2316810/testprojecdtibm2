@@ -1,6 +1,20 @@
 {
-  "scopes": [],
-  "attributes": [],
-  "role-templates": [],
-  "authorities-inheritance": false
+  "xsappname": "testprojectibm", 
+  "tenant-mode": "shared",
+       
+  "scopes": [
+    {
+      "name": "$XSAPPNAME.User",
+      "description": "Basic user scope"
+    }
+  ],
+  "role-templates": [
+    {
+      "name": "AppUser",
+      "description": "User Role",
+      "scope-references": [
+        "$XSAPPNAME.User"
+      ]
+    }
+  ]
 }
