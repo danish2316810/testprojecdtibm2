@@ -1,7 +1,16 @@
 using  app.dan as app from '../../db/';
 @path:'MyServiceMain'
 service MyService {
-
+     @(restrict:[
+      {
+        grant:[ read,update,delete],
+        to:'User'
+      },
+      {
+        grant:[read,update,delete,create],
+        to:'Admin'
+      }
+    ])
     entity CUST as projection on app.CUSTOMERS;
     entity SO as projection on app.salesOrder;
 

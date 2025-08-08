@@ -6,9 +6,20 @@
     {
       "name": "$XSAPPNAME.User",
       "description": "Basic user scope"
+    },
+    {
+      "name":"$XSAPPNAME.Admin",
+      "description":"advanced scope"
     }
   ],
   "role-templates": [
+    {
+      "name": "Admin",
+      "description": "advanced scope",
+      "scope-references": [
+        "$XSAPPNAME.Admin"
+      ]
+    },
     {
       "name": "AppUser",
       "description": "User Role",

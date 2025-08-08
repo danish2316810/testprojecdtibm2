@@ -35,3 +35,6 @@ mta_archives/
 
 # auto generated wildcard
 db/.env
+# auto generated wildcard
+.env1
+srv/test.http

@@ -20,6 +20,6 @@ service ErrorMangement {
       value:String;
     }
   }
-
+   
   action createErrorRecord(data: payload) returns String;
 }

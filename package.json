@@ -37,11 +37,9 @@
       },
       "connectivity": true,
       "destinations": true,
-      "html5-runtime": true
-    },
-    "sql": {
-      "native_hana_associations": false
+      "html5-repo": true
     }
+    
   },
   "sapux": [
     "app/list-report-for-internalisation",

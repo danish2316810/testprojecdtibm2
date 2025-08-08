@@ -52,17 +52,17 @@ Content-Type: application/json
 
   {
     "data": {
-      "source":"TMS",
+      "source":"GSAP",
       "interface":"Contract",
       "errorCode":"1",
       "iFlowName":"i01",
       "httpErrorCode":"32",
       "enabledForReprocessing":"Y",
       "fields":[
-        {"keys":"ID","value":"004"},
-        {"keys":"terminalNo","value":"T003"},
-        {"keys":"folioMo","value":"14"},
-        {"keys":"invNo","value":"IN22"}
+        {"keys":"ID","value":"002"},
+        {"keys":"terminalNo","value":"T001"},
+        {"keys":"folioMo","value":"1"},
+        {"keys":"invNo","value":"In01"}
 
       ]
     }

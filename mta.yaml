@@ -26,7 +26,6 @@ modules:
     requires:
       - name: testprojectibm-auth
       - name: testprojectibm-db
-      - name: testprojectibm-connectivity
       - name: testprojectibm-destination
     provides:
       - name: srv-api
@@ -47,29 +46,29 @@ modules:
     parameters:
       buildpack: nodejs_buildpack
 
-  # MODULE: AppRouter
-  - name: testprojectibm
-    type: approuter.nodejs
-    path: app/router
-    requires:
-      - name: srv-api
-        group: destinations
-        properties:
-          forwardAuthToken: true
-          name: srv-api
-          url: ~{srv-url}
-      - name: testprojectibm-auth
-      - name: testprojectibm-destination
-      - name: testprojectibm-html5-runtime
-    provides:
-      - name: app-api
-        properties:
-          app-protocol: ${protocol}
-          app-uri: ${default-uri}
-    parameters:
-      disk-quota: 256M
-      keep-existing-routes: true
-      memory: 256M
+  # # MODULE: AppRouter
+  # - name: testprojectibm
+  #   type: approuter.nodejs
+  #   path: app/router
+  #   requires:
+  #     - name: srv-api
+  #       group: destinations
+  #       properties:
+  #         forwardAuthToken: true
+  #         name: srv-api
+  #         url: ~{srv-url}
+  #     - name: testprojectibm-auth
+  #     - name: testprojectibm-destination
+  #     - name: testprojectibm-html5-runtime
+  #   provides:
+  #     - name: app-api
+  #       properties:
+  #         app-protocol: ${protocol}
+  #         app-uri: ${default-uri}
+  #   parameters:
+  #     disk-quota: 256M
+  #     keep-existing-routes: true
+  #     memory: 256M
 
   # MODULE: HTML5 App Deployer (Content)
   - name: testprojectibm-app-deployer
@@ -79,22 +78,23 @@ modules:
       - name: testprojectibm-html5-repo-host
         parameters:
           content-target: true
+      # - name: srv-api
     build-parameters:
-      build-result: app/
+      build-result: resources
       requires:
         - artifacts:
             - apactionui.zip
           name: apactionui
-          target-path: app/
+          target-path: resources/
         - artifacts:
             - applistreportforinternalisation.zip
           name: applistreportforinternalisation
-          target-path: app/
+          target-path: resources/
         - artifacts:
             - appdanappdancontracterrors.zip
           name: appdanappdancontracterrors
-          target-path: app/
-
+          target-path: resources/
+   
   # MODULE: Destination Content Deployer
   - name: testmay11-destination-content
     type: com.sap.application.content
@@ -113,18 +113,18 @@ modules:
       - name: srv-api
     parameters:
       content:
-        subaccount:
+        instance:
           existing_destinations_policy: update
           destinations:
             - Name: testprojectibm_testmay11_html_repo_host
               ServiceInstanceName: testprojectibm-html5-repo-host
               ServiceKeyName: testprojectibm-html5-repo-host-key
-              sap.cloud.service: testmay11App
+              sap.cloud.service: app.dan 
             - Name: testprojectibm_testmay11_auth
               Authentication: OAuth2UserTokenExchange
               ServiceInstanceName: testprojectibm-auth
               ServiceKeyName: testprojectibm-auth-key
-              sap.cloud.service: testprojectibm
+              sap.cloud.service: app.dan              
     build-parameters:
       no-source: true
 
@@ -149,7 +149,7 @@ modules:
       builder: custom
       commands:
         - npm install
-        - npm run build:cf
+        - npm run build:cf        
       supported-platforms: []
 
   # MODULE: HTML5 UI - Contract Errors App
@@ -175,62 +175,64 @@ resources:
     parameters:
       config:
         tenant-mode: dedicated
-        xsappname: testprojectibm-${org}-${space}
+        xsappname: testprojectibm
       path: ./xs-security.json
       service: xsuaa
       service-plan: application
-
   # RESOURCE: HANA DB
   - name: testprojectibm-db
     type: com.sap.xs.hdi-container
     parameters:
       service: hana
       service-plan: hdi-shared
-
-  # RESOURCE: Connectivity
-  - name: testprojectibm-connectivity
-    type: org.cloudfoundry.managed-service
-    parameters:
-      service: connectivity
-      service-plan: lite
-
-  # RESOURCE: Destination
+   # RESOURCE: Destination
   - name: testprojectibm-destination
     type: org.cloudfoundry.managed-service
-    requires:
-      - name: srv-api
     parameters:
       config:
-        HTML5Runtime_enabled: false
+        HTML5Runtime_enabled: true
         init_data:
           instance:
-            destinations:
-              - Authentication: NoAuthentication
-                HTML5.DynamicDestination: true
-                HTML5.ForwardAuthToken: true
-                Name: srv-api
-                ProxyType: Internet
-                Type: HTTP
-                URL: ~{srv-api/srv-url}
-              - Authentication: NoAuthentication
-                Name: ui5
-                ProxyType: Internet
-                Type: HTTP
-                URL: https://ui5.sap.com
             existing_destinations_policy: update
+            destinations:
+              - Name: srv-api
+                URL: ~{srv-api/srv-url}
+                Authentication: NoAuthentication
+                Type: HTTP
+                ProxyType: Internet
+                HTML5.ForwardAuthToken: true
+                HTML5.DynamicDestination: true
+              - Name: ui5
+                URL: https://ui5.sap.com
+                Authentication: NoAuthentication
+                Type: HTTP
+                ProxyType: Internet
       service: destination
+      service-name: testprojectibm-destination
       service-plan: lite
-
-  # RESOURCE: HTML5 Repo Host
+    requires:
+      - name: srv-api
+  # RESOURCE: HTML5 Repo Host (hrh)
   - name: testprojectibm-html5-repo-host
     type: org.cloudfoundry.managed-service
     parameters:
       service: html5-apps-repo
       service-plan: app-host
+ 
 
+
+
+  # # RESOURCE: Connectivity
+  # - name: testprojectibm-connectivity
+  #   type: org.cloudfoundry.managed-service
+  #   parameters:
+  #     service: connectivity
+  #     service-plan: litecf 
+
+ 
   # RESOURCE: HTML5 Runtime
-  - name: testprojectibm-html5-runtime
-    type: org.cloudfoundry.managed-service
-    parameters:
-      service: html5-apps-repo
-      service-plan: app-runtime
+  # - name: testprojectibm-html5-runtime
+  #   type: org.cloudfoundry.managed-service
+  #   parameters:
+  #     service: html5-apps-repo
+  #     service-plan: app-runtime 
