@@ -32,7 +32,7 @@
   "cds": {
     "requires": {
       "db": "hana",
-      "uaa": {
+      "auth": {
         "kind": "xsuaa"
       },
       "connectivity": true,

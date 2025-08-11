@@ -15,6 +15,8 @@ sap.ui.define([
             var country = this.byId("idCountry").getValue();
             let oModel = this.getOwnerComponent().getModel();
             let url = oModel.sServiceUrl + "CUST";
+            //  const modulePath = sap.ui.require.toUrl("ap/actionui");
+            //  let url=`${modulePath}${relativePath}`
             // Step 2: Create the payload
             var payload = {
                 CUSTOMER_NAME: customerName,

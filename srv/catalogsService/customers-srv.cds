@@ -3,11 +3,11 @@ using  app.dan as app from '../../db/';
 service MyService {
      @(restrict:[
       {
-        grant:[ read,update,delete],
+        grant:[ READ],
         to:'User'
       },
       {
-        grant:[read,update,delete,create],
+        grant:[READ,UPDATE,DELETE,CREATE],
         to:'Admin'
       }
     ])

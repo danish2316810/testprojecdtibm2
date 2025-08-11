@@ -20,7 +20,7 @@ POST http://localhost:4004/odata/v4/MyServiceMain/CUST
 Content-Type: application/json
 
 {
-  "CUSTOMER_NAME": "dan",
+  "CUSTOMER_NAME": "wipro2",
   "CURRENCY": "inr",
   "COUNTRY": "india"
 }
@@ -30,7 +30,7 @@ Content-Type: application/json
 
 {
   
-  "CUSTOMER_NAME": "dan1",
+  "CUSTOMER_NAME": "dan1chck",
   "CURRENCY": "inr",
   "COUNTRY": "india"
 }

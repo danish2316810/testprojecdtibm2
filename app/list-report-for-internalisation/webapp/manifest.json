@@ -24,7 +24,20 @@
           "odataVersion": "4.0"
         }
       }
+    },"crossNavigation": {   
+      "inbounds": {
+        "listReportInternalisation-display": {
+          "semanticObject": "listReportInternalisation",
+          "action": "display",
+          "title": "{{appTitle}}",
+          "signature": {
+            "parameters": {},
+            "additionalParameters": "allowed"
+          }
+        }
+      }
     }
+    
   },
   "sap.ui": {
     "technology": "UI5",
@@ -137,5 +150,9 @@
   "sap.fiori": {
     "registrationIds": [],
     "archeType": "transactional"
+  },
+  "sap.cloud": {
+    "public": true,
+    "service": "app.dan"
   }
 }
