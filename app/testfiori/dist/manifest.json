@@ -1,0 +1,191 @@
+{
+  "_version": "1.65.0",
+  "sap.app": {
+    "id": "app.dan.testfiori",
+    "type": "application",
+    "i18n": {
+      "bundleUrl": "i18n/i18n.properties",
+      "supportedLocales": [
+        ""
+      ]
+    },
+    "applicationVersion": {
+      "version": "0.0.1"
+    },
+    "title": "{{appTitle}}",
+    "description": "{{appDescription}}",
+    "resources": "resources.json",
+    "sourceTemplate": {
+      "id": "@sap/generator-fiori:lrop",
+      "version": "1.18.4",
+      "toolsId": "d0113272-8eb3-47a7-a3b6-10dcdfc42f2c"
+    },
+    "dataSources": {
+      "mainService": {
+        "uri": "/odata/v4/error-mangement/",
+        "type": "OData",
+        "settings": {
+          "annotations": [],
+          "odataVersion": "4.0"
+        }
+      }
+    },
+    "crossNavigation": {
+      "inbounds": {
+        "testfiori-manage": {
+          "semanticObject": "testfiori",
+          "action": "manage",
+          "title": "{{testfiori-manage.flpTitle}}",
+          "subTitle": "{{testfiori-manage.flpSubtitle}}",
+          "signature": {
+            "parameters": {},
+            "additionalParameters": "allowed"
+          }
+        }
+      }
+    }
+  },
+  "sap.ui": {
+    "technology": "UI5",
+    "icons": {
+      "icon": "",
+      "favIcon": "",
+      "phone": "",
+      "phone@2": "",
+      "tablet": "",
+      "tablet@2": ""
+    },
+    "deviceTypes": {
+      "desktop": true,
+      "tablet": true,
+      "phone": true
+    }
+  },
+  "sap.ui5": {
+    "flexEnabled": true,
+    "dependencies": {
+      "minUI5Version": "1.139.0",
+      "libs": {
+        "sap.m": {},
+        "sap.ui.core": {},
+        "sap.fe.templates": {}
+      }
+    },
+    "contentDensities": {
+      "compact": true,
+      "cozy": true
+    },
+    "models": {
+      "i18n": {
+        "type": "sap.ui.model.resource.ResourceModel",
+        "settings": {
+          "bundleName": "app.dan.testfiori.i18n.i18n",
+          "supportedLocales": [
+            ""
+          ]
+        }
+      },
+      "": {
+        "dataSource": "mainService",
+        "preload": true,
+        "settings": {
+          "operationMode": "Server",
+          "autoExpandSelect": true,
+          "earlyRequests": true
+        }
+      },
+      "@i18n": {
+        "type": "sap.ui.model.resource.ResourceModel",
+        "uri": "i18n/i18n.properties",
+        "settings": {
+          "supportedLocales": [
+            ""
+          ]
+        }
+      }
+    },
+    "resources": {
+      "css": []
+    },
+    "routing": {
+      "config": {},
+      "routes": [
+        {
+          "pattern": ":?query:",
+          "name": "ContractErrorsViewList",
+          "target": "ContractErrorsViewList"
+        },
+        {
+          "pattern": "ContractErrorsView({key}):?query:",
+          "name": "ContractErrorsViewObjectPage",
+          "target": "ContractErrorsViewObjectPage"
+        }
+      ],
+      "targets": {
+        "ContractErrorsViewList": {
+          "type": "Component",
+          "id": "ContractErrorsViewList",
+          "name": "sap.fe.templates.ListReport",
+          "options": {
+            "settings": {
+              "contextPath": "/ContractErrorsView",
+              "variantManagement": "Page",
+              "navigation": {
+                "ContractErrorsView": {
+                  "detail": {
+                    "route": "ContractErrorsViewObjectPage"
+                  }
+                }
+              },
+              "controlConfiguration": {
+                "@com.sap.vocabularies.UI.v1.LineItem": {
+                  "tableSettings": {
+                    "type": "ResponsiveTable"
+                  },
+                  "columns": {
+                    "ReProcess": {
+                      "header": "action",
+                      "availability": "Default",
+                      "position": {
+                        "anchor": "DataField::reprocessCount"
+                      },
+                      "template": "app.dan.testfiori.ext.fragments.ReProcess"
+                    }
+                  },
+                  "Error": {
+                    "header": "{i18n>ErrorCode}",
+                    "availability": "Default",
+                    "properties": [
+                      "errorCode",
+                      "errorDesc"
+                    ],
+                    "template": "app.dan.testfiori.ext.fragments.Error1"
+                  }
+                }
+              }
+            }
+          }
+        },
+        "ContractErrorsViewObjectPage": {
+          "type": "Component",
+          "id": "ContractErrorsViewObjectPage",
+          "name": "sap.fe.templates.ObjectPage",
+          "options": {
+            "settings": {
+              "editableHeaderContent": false,
+              "contextPath": "/ContractErrorsView"
+            }
+          }
+        }
+      }
+    }
+  },
+  "sap.fiori": {
+    "registrationIds": [],
+    "archeType": "transactional"
+  },
+  "sap.cloud": {
+    "public": true,
+    "service": "app.dan"
+  }
+}

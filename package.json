@@ -27,7 +27,7 @@
     "build": "rimraf resources mta_archives && mbt build --mtar archive",
     "deploy": "cf deploy mta_archives/archive.mtar --retries 1",
     "watch-list-report-for-internalisation": "cds watch --open list-report-for-internalisation/webapp/index.html?sap-ui-xx-viewCache=false",
-    "watch-app-dan-contracterrors": "cds watch --open app-dan-contracterrors/webapp/index.html?sap-ui-xx-viewCache=false"
+    "watch-testfiori": "cds watch --open testfiori/webapp/index.html?sap-ui-xx-viewCache=false"
   },
   "cds": {
     "requires": {
@@ -39,11 +39,10 @@
       "destinations": true,
       "html5-repo": true
     }
-    
   },
   "sapux": [
     "app/list-report-for-internalisation",
-    "app/app-dan-contracterrors",
-    "app/app-dan-actionui"
+    "app/app-dan-actionui",
+    "app/testfiori"
   ]
 }

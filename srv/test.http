@@ -57,12 +57,12 @@ Content-Type: application/json
       "errorCode":"1",
       "iFlowName":"i01",
       "httpErrorCode":"32",
-      "enabledForReprocessing":"Y",
+      "enabledForReprocessing":"N",
       "fields":[
-        {"keys":"ID","value":"002"},
-        {"keys":"terminalNo","value":"T001"},
-        {"keys":"folioMo","value":"1"},
-        {"keys":"invNo","value":"In01"}
+        {"keys":"ID","value":"003"},
+        {"keys":"terminalNo","value":"T003"},
+        {"keys":"folioMo","value":"2"},
+        {"keys":"invNo","value":"In02"}
 
       ]
     }
