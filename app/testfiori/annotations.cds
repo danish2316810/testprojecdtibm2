@@ -3,6 +3,7 @@ annotate service.ContractErrorsView with @(
     UI.SelectionFields : [
         terminalNo,
         folioMo,
+        sourceSystem
        
     ],
    

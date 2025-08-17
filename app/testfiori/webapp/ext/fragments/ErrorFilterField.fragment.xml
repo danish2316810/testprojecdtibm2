@@ -1,0 +1,16 @@
+<core:FragmentDefinition
+    xmlns:core="sap.ui.core"
+    xmlns="sap.m"   
+    core:require="{
+        Value: 'sap/fe/macros/filter/type/Value'
+    }">
+    <ComboBox id="idErrorCombo" items="{ path:'/ErrorCodes' }"
+        selectedKey="{path:'filterValues', type:'Value'}"
+    >
+    <core:ListItem id="idList" key="{errorCode}" text="{errorCode}">
+       
+    </core:ListItem>
+        
+    </ComboBox>
+
+</core:FragmentDefinition>

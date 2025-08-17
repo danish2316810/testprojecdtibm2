@@ -125,6 +125,16 @@
                 }
               },
               "controlConfiguration": {
+                "@com.sap.vocabularies.UI.v1.SelectionFields":{
+                  "filterFields":{
+                    "errorCode":{
+                      "label":"{i18n>ErrorCode}",
+                      "availability":"Default",
+                      "property":"errorCode",
+                      "template":"app.dan.testfiori.ext.fragments.ErrorFilterField"
+                    }
+                  }
+                },
                 "@com.sap.vocabularies.UI.v1.LineItem": {
                   "tableSettings": {
                     "type": "ResponsiveTable"
@@ -137,17 +147,18 @@
                         "anchor": "DataField::reprocessCount"
                       },
                       "template": "app.dan.testfiori.ext.fragments.ReProcess"
+                    },
+                    "Error": {
+                      "header": "{i18n>ErrorCode}",
+                      "availability": "Default",
+                      "properties": [
+                        "errorCode",
+                        "errorDesc"
+                      ],
+                      "template": "app.dan.testfiori.ext.fragments.Error1"
                     }
-                  },
-                  "Error": {
-                    "header": "{i18n>ErrorCode}",
-                    "availability": "Default",
-                    "properties": [
-                      "errorCode",
-                      "errorDesc"
-                    ],
-                    "template": "app.dan.testfiori.ext.fragments.Error1"
                   }
+                  
                 }
               }
             }
