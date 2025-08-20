@@ -129,27 +129,36 @@
                   "tableSettings": {
                     "type": "ResponsiveTable"
                   },
-                   "columns": {
+                  "columns": {
+                    "DataField::errorCode":{
+                      "availability":"Hidden"
+                    },
                     "ReProcess": {
                       "header": "action",
                       "availability": "Default",
                       "position": {
                         "anchor": "DataField::reprocessCount"
                       },
+                      "properties": [
+                        "errorEnabledForReprocessing",
+                        "interfaceEnabledForReprocessing"
+                      ],
                       "template": "app.dan.testfiori.ext.fragments.ReProcess"
+                    },
+                    "Error": {
+                      "header": "Error",
+                      "availability": "Default",
+                      "properties": [
+                        "errorCode",
+                        "errorDesc"
+                      ],
+                      "template": "app.dan.testfiori.ext.fragments.Error1"
                     }
-                  },
-                  "Error": {
-                    "header": "{i18n>ErrorCode}",
-                    "availability": "Default",
-                    "properties": [
-                      "errorCode",
-                      "errorDesc"
-                    ],
-                    "template": "app.dan.testfiori.ext.fragments.Error1"
+                   
                   }
                 }
-              }
+              },
+              "initialLoad": "Enabled"
             }
           }
         },
