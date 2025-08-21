@@ -32,7 +32,7 @@ sap.ui.define([
             success:(odata)=>{
                 if(odata){
                     this._view.setBusy(false);
-                    MessageBox.show(odata.message)
+                    MessageBox.show(odata.value)
                     
                     
                 }
