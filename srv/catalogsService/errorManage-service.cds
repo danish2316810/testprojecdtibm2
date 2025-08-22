@@ -3,7 +3,7 @@ using app.dan as app from '../../db';
 
 service ErrorMangement {
 
-    
+    entity ErrorCodes as projection on app.ErrorCodes;
     
     view ContractErrorsView as select from app.ContractErrorsView{
         *,
