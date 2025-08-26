@@ -33,7 +33,9 @@
             // just simulate reprocess + increment reprocessCount
             for (const record of aEntityData) {
                 await UPDATE(entity)
-                    .set({ reprocessCount: { '+=': 1 } }) // increase by 1
+                    .set({ reprocessCount: { '+=': 1 }, // increase by 1
+                        lastRetry: new Date()  
+                    }) 
                     .where({ ID: record.ID }); // assumes you have an ID field
             }
         }
@@ -68,6 +70,8 @@
                     terminalNo: keys.terminalNo,
                     folioMo: keys.folioMo
                 })
+                .orderBy `createdAt`
+                // .orderBy({ createdAt: 'asc' });
                 
         } else {
             req.error(buildErrorMessages.buildErrorWithMsg("Unknown entity for reprocessing."));
