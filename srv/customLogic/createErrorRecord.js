@@ -151,6 +151,10 @@ async function formErrorData(endPoint,httpPayloadFiledsdata,cdsEntityList) {
     payload.cdsEntityFullName=cdsEntityList.ContractErrors.name;
     payload.cdsEntityFieldsObject=cdsEntityList.ContractErrors.elements;
     payload.payloaddata=await formBtpTableErrorPayload(httpPayloadFiledsdata)
+  }else if(endPoint==="Nomination"){
+    payload.cdsEntityFullName=cdsEntityList.NominationErrors.name;
+    payload.cdsEntityFieldsObject=cdsEntityList.NominationErrors.elements;
+    payload.payloaddata=await formBtpTableErrorPayload(httpPayloadFiledsdata)
   }
   return payload;
 }

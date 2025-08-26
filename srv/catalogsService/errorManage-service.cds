@@ -14,6 +14,9 @@ service ErrorMangement {
     view ContractErrorsView as select from app.ContractErrorsView{
         *,
     };
+    view NominationErrorsView as select from app.NominationErrorsView{
+        *,
+    };
   type payload{
     source:String;
     interface:String;

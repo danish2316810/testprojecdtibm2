@@ -1,7 +1,7 @@
 _schema-version: 3.3.0
 ID: testprojectibm
 description: A simple CAP project.
-version: 1.0.6
+version: 1.0.7
 modules:
 - name: testprojectibm-srv
   type: nodejs
@@ -47,6 +47,10 @@ modules:
     - artifacts:
       - appdantestfiori.zip
       name: appdantestfiori
+      target-path: resources/
+    - artifacts:
+      - usibappdanusidappdandynamictable.zip
+      name: usibappdanusidappdandynamictable
       target-path: resources/
 - name: testmay11-destination-content
   type: com.sap.application.content
@@ -102,6 +106,16 @@ modules:
 - name: appdantestfiori
   type: html5
   path: app/testfiori
+  build-parameters:
+    build-result: dist
+    builder: custom
+    commands:
+    - npm install
+    - npm run build:cf
+    supported-platforms: []
+- name: usibappdanusidappdandynamictable
+  type: html5
+  path: app/usid-app-dandynamictable
   build-parameters:
     build-result: dist
     builder: custom

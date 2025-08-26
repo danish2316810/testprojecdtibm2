@@ -27,7 +27,8 @@
     "build": "rimraf resources mta_archives && mbt build --mtar archive",
     "deploy": "cf deploy mta_archives/archive.mtar --retries 1",
     "watch-list-report-for-internalisation": "cds watch --open list-report-for-internalisation/webapp/index.html?sap-ui-xx-viewCache=false",
-    "watch-testfiori": "cds watch --open testfiori/webapp/index.html?sap-ui-xx-viewCache=false"
+    "watch-testfiori": "cds watch --open testfiori/webapp/index.html?sap-ui-xx-viewCache=false",
+    "watch-usid-app-dandynamictable": "cds watch --open usid-app-dandynamictable/webapp/index.html?sap-ui-xx-viewCache=false"
   },
   "cds": {
     "requires": {
