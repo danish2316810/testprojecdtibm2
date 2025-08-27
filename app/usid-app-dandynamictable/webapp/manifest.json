@@ -17,7 +17,7 @@
     },
     "dataSources": {
       "mainService": {
-        "uri": "/odata/v4/MyServiceMain/",
+        "uri": "/odata/v4/error-mangement/",
         "type": "OData",
         "settings": {
           "annotations": [],

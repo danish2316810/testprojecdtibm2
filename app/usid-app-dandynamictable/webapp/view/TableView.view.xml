@@ -1,6 +1,23 @@
 <mvc:View controllerName="usib.app.dan.usidappdandynamictable.controller.TableView"
     xmlns:mvc="sap.ui.core.mvc"
-    xmlns="sap.m">
+    xmlns="sap.m"
+    xmlns:core="sap.ui.core">
     <Page id="page" title="{i18n>title}">
+    <ComboBox id="idCombo" items="{dropdownModel>/ErrorTypes}" selectionChange="onSelectDropItem">
+      <core:Item key="{dropdownModel>key}" text="{dropdownModel>text}"></core:Item>
+    </ComboBox>
+    <Toolbar id="filterBar" design="Auto" /> 
+    <Table id="idDynTable" mode="SingleSelectMaster" selectionChange="onLineItemClick">
+        <headerToolbar>
+        
+
+            <Toolbar>
+              <Title text="Error Data" />
+              <ToolbarSpacer ></ToolbarSpacer>
+              <Button icon="sap-icon://action-settings"            
+               press=".onPersonalizePress" />
+            </Toolbar>
+        </headerToolbar>
+    </Table>
     </Page>
 </mvc:View>
