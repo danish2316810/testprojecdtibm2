@@ -59,89 +59,90 @@ sap.ui.define([
 
         // load config dynamically
        _loadConfig: function (type) {
-            this.currentType = type;
-            let cfg = this._config[type];
-            let oView = this.getView();
-            let oTable = oView.byId("idDynTable");
-            let oFilterBar = oView.byId("filterBar");
+    this.currentType = type;
+    let cfg = this._config[type];
+    let oView = this.getView();
+    let oTable = oView.byId("idDynTable");
+    let oFilterBar = oView.byId("filterBar");
 
-                 // 🔹 reset table
-                oTable.removeAllColumns();
+    // Define initial visible columns per table type
+    this._defaultVisibleCols = {
+        nominations: ["terminalNo", "folioMo", "invNo"], // preselected
+        contracts: ["ID", "nominationKey", "nominationItem"] // preselected
+    };
 
-                // mark table type
-                oTable.data("tableType", type.toLowerCase());
+    // 🔹 reset table
+    oTable.removeAllColumns();
+    oTable.unbindItems();
 
-                // 🔹 build columns dynamically with unique IDs
-                cfg.columns.forEach((fieldName, index) => {
-                    let sLabel = this.oBundle.getText(fieldName, fieldName);
-                    oTable.addColumn(new Column({
-                        id: oView.createId(`col-${type.toLowerCase()}-${fieldName}-${Date.now()}-${index}`), // unique
-                        header: new Label({ text: sLabel })
-                    }));
+    // mark table type
+    oTable.data("tableType", type.toLowerCase());
+
+    // 🔹 build columns dynamically with unique IDs & initial visibility
+    cfg.columns.forEach((fieldName, index) => {
+        let sLabel = this.oBundle.getText(fieldName, fieldName);
+        oTable.addColumn(new Column({
+            id: oView.createId(`col-${type.toLowerCase()}-${fieldName}-${Date.now()}-${index}`), 
+            header: new Label({ text: sLabel }),
+            visible: this._defaultVisibleCols[type.toLowerCase()].includes(fieldName) // ✅ initial visibility
+        }));
+    });
+
+    // 🔹 build template for rows
+    let oTemplate = new sap.m.ColumnListItem({
+        cells: cfg.columns.map((fieldName) => {
+            if (fieldName === "Action") {
+                return new Button({
+                    text: "Reprocess",
+                    type: "Emphasized"
+                }).bindProperty("visible", {
+                    path: "enabledForReprocessing",
+                    formatter: (bValue) => bValue === true
                 });
+            } else {
+                return new Text({ text: `{${fieldName}}` });
+            }
+        })
+    });
 
-                // 🔹 build template for rows
-                let that = this;
-                let oTemplate = new sap.m.ColumnListItem({
-                    cells: cfg.columns.map((fieldName, index) => {
-                        if (fieldName === "Action") {
-                            return new Button({
-                                text: "Reprocess",
-                                type: "Emphasized"
-                                // press: that._onReprocess (if needed later)
-                            }).bindProperty("visible", {
-                                path: "enabledForReprocessing",
-                                formatter: function (bValue) {
-                                    return bValue === true;
-                                }
-                            });
-                        } else {
-                            return new Text({ text: `{${fieldName}}` });
-                        }
-                    })
-                });
+    // 🔹 bind items to table
+    oTable.bindItems({
+        path: cfg.entitySet,
+        template: oTemplate
+    });
 
-                    // 🔹 bind items to table
-                    oTable.bindItems({
-                        path: cfg.entitySet,
-                        template: oTemplate
-                    });
+    // 🔹 build filters dynamically
+    oFilterBar.removeAllFilterGroupItems();
+    sap.ui.getCore().applyChanges(); // force rerender
 
-                    // 🔹 build filters dynamically
-                    oFilterBar.removeAllFilterGroupItems();
-                    sap.ui.getCore().applyChanges(); // force rerender
+    cfg.filters.forEach((filterField, index) => {
+        let sLabel = this.oBundle.getText(filterField, filterField);
+        let oControl = new Input({ placeholder: `Enter ${sLabel}` });
 
-                    cfg.filters.forEach((filterField, index) => {
-                        let sLabel = this.oBundle.getText(filterField, filterField);
+        oFilterBar.addFilterGroupItem(new sap.ui.comp.filterbar.FilterGroupItem({
+            groupName: "__basic",
+            name: `${type}-${filterField}-${Date.now()}-${index}`, // unique
+            label: sLabel,
+            control: oControl
+        }));
+    });
 
-                        let oControl = new Input({
-                            placeholder: `Enter ${sLabel}`
-                            // liveChange: this._onLiveSearch.bind(this) 
-                        });
+    // 🔹 personalization toolbar
+    persoService.setTableType(type.toLowerCase());
+    this._addToolbar(oTable);
 
-                        oFilterBar.addFilterGroupItem(new sap.ui.comp.filterbar.FilterGroupItem({
-                            groupName: "__basic",
-                            name: `${type}-${filterField}-${Date.now()}-${index}`, // unique ID
-                            label: sLabel,
-                            control: oControl
-                        }));
-                    });
+    if (this._oTPC) {
+        this._oTPC.destroy(); // destroy old TablePersoController
+    }
+    sap.ui.getCore().applyChanges();
 
-                    // 🔹 set dynamic toolbar title + personalization
-                    persoService.setTableType(type.toLowerCase());
-                    this._addToolbar(oTable);
-
-                    if (this._oTPC) {
-                        this._oTPC.destroy(); // destroy old TablePersoController
-                    }
-                    sap.ui.getCore().applyChanges();
-
-                    this._oTPC = new sap.m.TablePersoController({
-                        table: oTable,
-                        persoService: persoService
-                    });
-                    this._oTPC.activate();
-                },
+    this._oTPC = new sap.m.TablePersoController({
+        table: oTable,
+        persoService: persoService
+    });
+    this._oTPC.activate();
+}
+,
 
         // add/update toolbar
         _addToolbar: function (oTable) {
