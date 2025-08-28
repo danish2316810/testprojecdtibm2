@@ -128,6 +128,7 @@ sap.ui.define([
                     });
 
                     // 🔹 set dynamic toolbar title + personalization
+                    persoService.setTableType(type.toLowerCase());
                     this._addToolbar(oTable);
 
                     if (this._oTPC) {

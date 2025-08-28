@@ -9,9 +9,8 @@ sap.ui.define([], function () {
     _mDefaultVisibleCols = {
         "nominations": ["NominationId", "StartDate", "EndDate", "EnableReprocessing"],
         "contracts": ["ContractId", "Supplier", "EnableReprocessing"],
-        "interfaceData": ["ID", "ErrorCode", "BlobData", "CreatedAt", "UpdatedAt"],
-        "stockVariation": ["StockId", "Material", "Quantity", "Status", "EnableReprocessing"]
-        // add more table types as needed
+       
+        
     };
 
     var oData = {};
@@ -27,11 +26,11 @@ sap.ui.define([], function () {
         var defaults = {
             nominations: {
                 aColumns: [
-                    { id: "col1", visible: true },
+                    { id: "col1", visible: false },
                     { id: "col2", visible: true },
                     { id: "col3", visible: true },
-                    { id: "col4", visible: true },
-                    { id: "col5", visible: true },
+                    { id: "col4", visible: false },
+                    { id: "col5", visible: false },
                     { id: "col6", visible: false }
                 ]
             },
@@ -40,9 +39,9 @@ sap.ui.define([], function () {
                     { id: "col1", visible: true },
                     { id: "col2", visible: true },
                     { id: "col3", visible: true },
-                    { id: "col4", visible: true },
-                    { id: "col5", visible: true },
-                    { id: "col6", visible: true },
+                    { id: "col4", visible: false },
+                    { id: "col5", visible: false },
+                    { id: "col6", visible: false },
                     { id: "col7", visible: false }
                 ]
             }
