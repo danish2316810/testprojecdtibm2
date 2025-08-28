@@ -14,7 +14,6 @@ sap.ui.define([
     return Controller.extend("usib.app.dan.usidappdandynamictable.controller.TableView", {
         onInit() {
            
-
             // table configs
             this._config = {
                 Nominations: {
@@ -41,16 +40,16 @@ sap.ui.define([
 
             this.oBundle = this.getOwnerComponent().getModel("i18n").getResourceBundle();
         },
-
+        onSelectDropItem: function (oEvent) {
+            let Item = oEvent.getParameter("selectedItem").getProperty("key");
+            this.Item1Text=oEvent.getParameter("selectedItem").getProperty("text");
+            
+            this._loadConfig(Item);
+        },
         onPersonalizePress: function () {
             if (this._oTPC) {
                 this._oTPC.openDialog();
             }
-        },
-
-        onSelectDropItem: function (oEvent) {
-            let Item = oEvent.getParameter("selectedItem").getProperty("key");
-            this._loadConfig(Item);
         },
 
         _loadConfig: function (type) {
@@ -69,7 +68,6 @@ sap.ui.define([
             // create stable-ID columns dynamically
             cfg.columns.forEach((fieldName, index) => {
                 let sLabel = this.oBundle.getText(fieldName, fieldName);
-
                 oTable.addColumn(new Column({
                     id: oView.createId(`col-${type.toLowerCase()}-${fieldName}`),
                     // id: oView.createId("col-" + type.toLowerCase() + "-" + fieldName) 
@@ -77,40 +75,56 @@ sap.ui.define([
                 }));
             });
 
-            // add personalisation button
+            
             this._addToolbar(oTable);
+
+            // add personalisation 
             if (this._oTPC) {
                 this._oTPC.destroy(); // remove old controller
             }
             // 💡 delay activation until after rendering
-    sap.ui.getCore().applyChanges();
+            sap.ui.getCore().applyChanges();
 
-    this._oTPC = new sap.m.TablePersoController({
-        table: oTable,
-        persoService: persoService
-    });
+            this._oTPC = new sap.m.TablePersoController({
+                table: oTable,
+                persoService: persoService
+            });
 
-    this._oTPC.activate();
-
-    
+            this._oTPC.activate();
             console.log("Loading table type:", type.toLowerCase());
             console.log("Table instance:", oTable);
            console.log("Loaded table type:", type.toLowerCase(), "Column count:", oTable.getColumns().length);
                     },
 
         _addToolbar: function (oTable) {
-            if (!oTable.getHeaderToolbar()) {
-                let oToolbar = new Toolbar({
-                    content: [
-                        new ToolbarSpacer(),
-                        new Button({
-                            text: this.oBundle.getText("personalizeButton", "Personalize"),
-                            press: this.onPersonalizePress.bind(this)
-                        })
-                    ]
-                });
-                oTable.setHeaderToolbar(oToolbar);
-            }
-        }
+            let sErrorData = this.Item1Text;
+                    if (!this._oToolbarTitle) {
+                        // create title only once
+                        this._oToolbarTitle = new sap.m.Title({
+                            text: sErrorData,
+                            level: "H2"
+                        });
+
+            let oToolbar = new sap.m.Toolbar({
+                            content: [
+                                this._oToolbarTitle,
+                                new sap.m.ToolbarSpacer(),
+                                new sap.m.Button({
+                                    text: this.oBundle.getText("personalize", "Personalize"),
+                                    icon: "sap-icon://action-settings",
+                                    press: this.onPersonalizePress.bind(this)
+                                })
+                            ]
+                        });
+
+                        oTable.setHeaderToolbar(oToolbar);
+                    }
+
+                    // always update the text
+                    this._oToolbarTitle.setText(sErrorData);
+                          
+                }
+
+                   
     });
 });

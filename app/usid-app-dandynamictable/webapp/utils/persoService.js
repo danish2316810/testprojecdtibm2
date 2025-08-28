@@ -1,71 +1,67 @@
 sap.ui.define([], function () {
     "use strict";
+     var _oTable;              // Reference to the current table
+    var _sTableType;          // Type of the current table
+    var _mDefaultVisibleCols; // Map of tableType → initially visible columns
+
+    // Configure how many columns should be visible per table type
+    // Just change the `visibleColumns` list to control which ones start visible
+    _mDefaultVisibleCols = {
+        "nominations": ["NominationId", "StartDate", "EndDate", "EnableReprocessing"],
+        "contracts": ["ContractId", "Supplier", "EnableReprocessing"],
+        "interfaceData": ["ID", "ErrorCode", "BlobData", "CreatedAt", "UpdatedAt"],
+        "stockVariation": ["StockId", "Material", "Quantity", "Status", "EnableReprocessing"]
+        // add more table types as needed
+    };
 
     var oData = {};
 
     return {
-        getPersData: function (oTable) {
-            var oDeferred = jQuery.Deferred();
-
-            if (!oTable) {
-                console.error("getPersData: oTable is undefined!");
-            } else {
-                console.log("getPersData: oTable received", oTable);
-            }
-
-            let sType = oTable?.data("tableType");
-            console.log("getPersData: tableType =", sType);
-
-            let aColumns = [];
-
-            if (sType === "nominations") {
-                aColumns = [
-                    { id: oTable.getId() + "--col-nominations-terminalNo", order: 0, text: "Terminal No", visible: true },
-                    { id: oTable.getId() + "--col-nominations-folioMo", order: 1, text: "Folio Mo", visible: true },
-                    { id: oTable.getId() + "--col-nominations-invNo", order: 2, text: "Inv No", visible: true }
-                ];
-            } else if (sType === "contracts") {
-                aColumns = [
-                    { id: oTable.getId() + "--col-contracts-ID", order: 0, text: "ID", visible: true },
-                    { id: oTable.getId() + "--col-contracts-nominationKey", order: 1, text: "Nomination Key", visible: true },
-                    { id: oTable.getId() + "--col-contracts-nominationItem", order: 2, text: "Nomination Item", visible: true }
-                ];
-            }
-
-            oDeferred.resolve(
-                oData[sType] || {
-                    _persoSchemaVersion: "1.0",
-                    aColumns: aColumns
-                }
-            );
-
-            return oDeferred.promise();
-        },
-
-        setPersData: function (oBundle, oTable) {
-            var oDeferred = jQuery.Deferred();
-            let sType = oTable?.data("tableType");
-            if (sType) {
-                oData[sType] = oBundle;
-            } else {
-                oData = oBundle;
-            }
-            console.log("setPersData: saved data for tableType =", sType, oBundle);
-            oDeferred.resolve();
-            return oDeferred.promise();
-        },
-
-        delPersData: function (oTable) {
-            var oDeferred = jQuery.Deferred();
-            let sType = oTable?.data("tableType");
-            if (sType) {
-                delete oData[sType];
-            } else {
-                oData = {};
-            }
-            console.log("delPersData: deleted data for tableType =", sType);
-            oDeferred.resolve();
-            return oDeferred.promise();
+        getPersData: function () {
+        console.log("getPersData called for tableType =", this._tableType);
+        if (!this._oBundle) {
+            this._oBundle = {};
         }
+
+        // Default configurations per table type
+        var defaults = {
+            nominations: {
+                aColumns: [
+                    { id: "col1", visible: true },
+                    { id: "col2", visible: true },
+                    { id: "col3", visible: true },
+                    { id: "col4", visible: true },
+                    { id: "col5", visible: true },
+                    { id: "col6", visible: false }
+                ]
+            },
+            contracts: {
+                aColumns: [
+                    { id: "col1", visible: true },
+                    { id: "col2", visible: true },
+                    { id: "col3", visible: true },
+                    { id: "col4", visible: true },
+                    { id: "col5", visible: true },
+                    { id: "col6", visible: true },
+                    { id: "col7", visible: false }
+                ]
+            }
+        };
+
+        // Return saved data if exists, otherwise defaults
+        return jQuery.Deferred().resolve(
+            this._oBundle[this._tableType] || defaults[this._tableType] || {}
+        ).promise();
+    },
+
+        setPersData: function (oBundle) {
+        console.log("setPersData: saved data for tableType =", this._tableType, oBundle);
+        this._oBundle[this._tableType] = oBundle;
+        return jQuery.Deferred().resolve().promise();
+    },
+
+    setTableType: function (sType) {
+        this._tableType = sType;
+    }
     };
 });
