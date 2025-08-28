@@ -7,23 +7,25 @@ sap.ui.define([
     "sap/m/Toolbar",
     "sap/m/ToolbarSpacer",
     "sap/m/TablePersoController",
+    "sap/m/Title",
+    "sap/m/Input",
+    "sap/m/Text",
     "../utils/persoService"
-], (Controller, JSONModel, Column, Label, Button, Toolbar, ToolbarSpacer, TablePersoController, persoService) => {
+], (Controller, JSONModel, Column, Label, Button, Toolbar, ToolbarSpacer, TablePersoController, Title, Input,Text, persoService) => {
     "use strict";
 
     return Controller.extend("usib.app.dan.usidappdandynamictable.controller.TableView", {
         onInit() {
-           
             // table configs
             this._config = {
                 Nominations: {
                     entitySet: "/ContractErrorsView",
-                    columns: [ "terminalNo", "folioMo", "invNo", "lastRetry", "reprocessCount", "createdAt", "errorCode"],
+                    columns: ["terminalNo", "folioMo", "invNo", "lastRetry", "reprocessCount", "createdAt", "errorCode","Action"],
                     filters: ["ID", "terminalNo", "folioMo", "errorCode"]
                 },
                 Contracts: {
                     entitySet: "/NominationErrorsView",
-                    columns: ["ID", "nominationKey", "nominationItem", "diliveryReciept", "scheduleDate", "lastRetry", "reprocessCount", "createdAt", "errorCode"],
+                    columns: ["ID", "nominationKey", "nominationItem", "diliveryReciept", "scheduleDate", "lastRetry", "reprocessCount", "createdAt", "errorCode", "Action"],
                     filters: ["ID", "nominationKey", "nominationItem", "errorCode"]
                 }
             };
@@ -40,91 +42,134 @@ sap.ui.define([
 
             this.oBundle = this.getOwnerComponent().getModel("i18n").getResourceBundle();
         },
+
+        // dropdown select handler
         onSelectDropItem: function (oEvent) {
             let Item = oEvent.getParameter("selectedItem").getProperty("key");
-            this.Item1Text=oEvent.getParameter("selectedItem").getProperty("text");
-            
+            this.Item1Text = oEvent.getParameter("selectedItem").getProperty("text");
             this._loadConfig(Item);
         },
+
+        // open personalization dialog
         onPersonalizePress: function () {
             if (this._oTPC) {
                 this._oTPC.openDialog();
             }
         },
 
-        _loadConfig: function (type) {
-            this.currentType = type;
-            let cfg = this._config[type];
-            let oView = this.getView();
-            let oTable = oView.byId("idDynTable");
+        // load config dynamically
+       _loadConfig: function (type) {
+    this.currentType = type;
+    let cfg = this._config[type];
+    let oView = this.getView();
+    let oTable = oView.byId("idDynTable");
+    let oFilterBar = oView.byId("filterBar");
 
-            // remove existing columns
-            oTable.getColumns().forEach(col => col.destroy());
-            oTable.removeAllColumns();
+    // 🔹 reset table
+    oTable.removeAllColumns();
 
-            // ⭐ mark table with current type for persoService
-            oTable.data("tableType", type.toLowerCase());
+    // mark table type
+    oTable.data("tableType", type.toLowerCase());
 
-            // create stable-ID columns dynamically
-            cfg.columns.forEach((fieldName, index) => {
-                let sLabel = this.oBundle.getText(fieldName, fieldName);
-                oTable.addColumn(new Column({
-                    id: oView.createId(`col-${type.toLowerCase()}-${fieldName}`),
-                    // id: oView.createId("col-" + type.toLowerCase() + "-" + fieldName) 
-                    header: new Label({ text: sLabel })
-                }));
-            });
+    // 🔹 build columns dynamically with unique IDs
+    cfg.columns.forEach((fieldName, index) => {
+        let sLabel = this.oBundle.getText(fieldName, fieldName);
+        oTable.addColumn(new Column({
+            id: oView.createId(`col-${type.toLowerCase()}-${fieldName}-${Date.now()}-${index}`), // unique
+            header: new Label({ text: sLabel })
+        }));
+    });
 
-            
-            this._addToolbar(oTable);
-
-            // add personalisation 
-            if (this._oTPC) {
-                this._oTPC.destroy(); // remove old controller
-            }
-            // 💡 delay activation until after rendering
-            sap.ui.getCore().applyChanges();
-
-            this._oTPC = new sap.m.TablePersoController({
-                table: oTable,
-                persoService: persoService
-            });
-
-            this._oTPC.activate();
-            console.log("Loading table type:", type.toLowerCase());
-            console.log("Table instance:", oTable);
-           console.log("Loaded table type:", type.toLowerCase(), "Column count:", oTable.getColumns().length);
-                    },
-
-        _addToolbar: function (oTable) {
-            let sErrorData = this.Item1Text;
-                    if (!this._oToolbarTitle) {
-                        // create title only once
-                        this._oToolbarTitle = new sap.m.Title({
-                            text: sErrorData,
-                            level: "H2"
-                        });
-
-            let oToolbar = new sap.m.Toolbar({
-                            content: [
-                                this._oToolbarTitle,
-                                new sap.m.ToolbarSpacer(),
-                                new sap.m.Button({
-                                    text: this.oBundle.getText("personalize", "Personalize"),
-                                    icon: "sap-icon://action-settings",
-                                    press: this.onPersonalizePress.bind(this)
-                                })
-                            ]
-                        });
-
-                        oTable.setHeaderToolbar(oToolbar);
+    // 🔹 build template for rows
+    let that = this;
+    let oTemplate = new sap.m.ColumnListItem({
+        cells: cfg.columns.map((fieldName, index) => {
+            if (fieldName === "Action") {
+                return new Button({
+                    text: "Reprocess",
+                    type: "Emphasized"
+                    // press: that._onReprocess (if needed later)
+                }).bindProperty("visible", {
+                    path: "enabledForReprocessing",
+                    formatter: function (bValue) {
+                        return bValue === true;
                     }
+                });
+            } else {
+                return new Text({ text: `{${fieldName}}` });
+            }
+        })
+    });
 
-                    // always update the text
-                    this._oToolbarTitle.setText(sErrorData);
-                          
-                }
+    // 🔹 bind items to table
+    oTable.bindItems({
+        path: cfg.entitySet,
+        template: oTemplate
+    });
 
-                   
+    // 🔹 build filters dynamically
+    oFilterBar.removeAllFilterGroupItems();
+    sap.ui.getCore().applyChanges(); // force rerender
+
+    cfg.filters.forEach((filterField, index) => {
+        let sLabel = this.oBundle.getText(filterField, filterField);
+
+        let oControl = new Input({
+            placeholder: `Enter ${sLabel}`
+            // liveChange: this._onLiveSearch.bind(this) // add later if needed
+        });
+
+        oFilterBar.addFilterGroupItem(new sap.ui.comp.filterbar.FilterGroupItem({
+            groupName: "__basic",
+            name: `${type}-${filterField}-${index}`, // unique ID
+            label: sLabel,
+            control: oControl
+        }));
+    });
+
+    // 🔹 set dynamic toolbar title + personalization
+    this._addToolbar(oTable);
+
+    if (this._oTPC) {
+        this._oTPC.destroy(); // destroy old TablePersoController
+    }
+    sap.ui.getCore().applyChanges();
+
+    this._oTPC = new TablePersoController({
+        table: oTable,
+        persoService: persoService
+    });
+    this._oTPC.activate();
+}
+,
+
+        // add/update toolbar
+        _addToolbar: function (oTable) {
+            let sErrorData = this.Item1Text || "Error Data";
+
+            if (!this._oToolbarTitle) {
+                this._oToolbarTitle = new Title({
+                    text: sErrorData,
+                    level: "H2"
+                });
+
+                let oToolbar = new Toolbar({
+                    content: [
+                        this._oToolbarTitle,
+                        new ToolbarSpacer(),
+                        new Button({
+                            text: this.oBundle.getText("personalize", "Personalize"),
+                            icon: "sap-icon://action-settings",
+                            press: this.onPersonalizePress.bind(this)
+                        })
+                    ]
+                });
+
+                oTable.setHeaderToolbar(oToolbar);
+            }
+
+            // always update title
+            this._oToolbarTitle.setText(sErrorData);
+        }
     });
 });
