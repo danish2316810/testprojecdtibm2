@@ -11,7 +11,7 @@ sap.ui.define([
     "sap/m/Input",
     "sap/m/Text",
     "../utils/persoService"
-], (Controller, JSONModel, Column, Label, Button, Toolbar, ToolbarSpacer, TablePersoController, Title, Input,Text, persoService) => {
+], (Controller, JSONModel, Column, Label, Button, Toolbar, ToolbarSpacer, TablePersoController, Title, Input,Text,persoService) => {
     "use strict";
 
     return Controller.extend("usib.app.dan.usidappdandynamictable.controller.TableView", {
@@ -20,15 +20,23 @@ sap.ui.define([
             this._config = {
                 Nominations: {
                     entitySet: "/ContractErrorsView",
-                    columns: ["terminalNo", "folioMo", "invNo", "lastRetry", "reprocessCount", "createdAt", "errorCode","Action"],
-                    filters: ["ID", "terminalNo", "folioMo", "errorCode"]
+                    columns: ["ID","terminalNo", "folioMo", "invNo", "lastRetry", "reprocessCount", "createdAt", "errorCode","Action"],
+                    filters: ["ID", "terminalNo", "folioMo", "errorCode"],
+                    visibleFilters: ["terminalNo", "errorCode"]
                 },
                 Contracts: {
                     entitySet: "/NominationErrorsView",
                     columns: ["ID", "nominationKey", "nominationItem", "diliveryReciept", "scheduleDate", "lastRetry", "reprocessCount", "createdAt", "errorCode", "Action"],
-                    filters: ["ID", "nominationKey", "nominationItem", "errorCode"]
+                    filters: ["ID", "nominationKey", "nominationItem", "errorCode"],
+                    visibleFilters: ["ID", "errorCode"]
+                   
                 }
             };
+            // Define initial visible columns per table type
+                this._defaultVisibleCols = {
+                    Nominations: ["terminalNo", "folioMo", "invNo"], // preselected
+                    Contracts: ["ID", "nominationKey", "nominationItem"], // preselected
+                };
 
             // dropdown model
             let oModel = new JSONModel();
@@ -63,13 +71,9 @@ sap.ui.define([
     let cfg = this._config[type];
     let oView = this.getView();
     let oTable = oView.byId("idDynTable");
-    let oFilterBar = oView.byId("filterBar");
+    
 
-    // Define initial visible columns per table type
-    this._defaultVisibleCols = {
-        nominations: ["terminalNo", "folioMo", "invNo"], // preselected
-        contracts: ["ID", "nominationKey", "nominationItem"] // preselected
-    };
+    
 
     // 🔹 reset table
     oTable.removeAllColumns();
@@ -84,7 +88,7 @@ sap.ui.define([
         oTable.addColumn(new Column({
             id: oView.createId(`col-${type.toLowerCase()}-${fieldName}-${Date.now()}-${index}`), 
             header: new Label({ text: sLabel }),
-            visible: this._defaultVisibleCols[type.toLowerCase()].includes(fieldName) // ✅ initial visibility
+            visible: this._defaultVisibleCols[type].includes(fieldName) // ✅ initial visibility
         }));
     });
 
@@ -112,19 +116,49 @@ sap.ui.define([
     });
 
     // 🔹 build filters dynamically
+    let oFilterBar = oView.byId("filterBar");
     oFilterBar.removeAllFilterGroupItems();
     sap.ui.getCore().applyChanges(); // force rerender
 
     cfg.filters.forEach((filterField, index) => {
         let sLabel = this.oBundle.getText(filterField, filterField);
-        let oControl = new Input({ placeholder: `Enter ${sLabel}` });
+        let oControl;
+
+        if(filterField==="errorCode"){
+            oControl=new sap.m.ComboBox({
+                placeholder: `Select ${sLabel}`,
+                items: {
+                path: "/ErrorCodes", // your model with values
+                template: new sap.ui.core.ListItem({
+                    key: "{errorCode}",
+                    text: "{errorCode}-{errorDesc}"
+                })
+                        },
+                change: this._onLiveSearch.bind(this)        
+            })
+        }else{
+            oControl = new Input({
+            placeholder: `Enter ${sLabel}`,
+            liveChange: (oEvent)=>{
+                let sValue=oEvent.getParameter("value");
+                this._onLiveSearch()
+            }
+        });
+        }
+        
 
         oFilterBar.addFilterGroupItem(new sap.ui.comp.filterbar.FilterGroupItem({
             groupName: "__basic",
             name: `${type}-${filterField}-${Date.now()}-${index}`, // unique
             label: sLabel,
-            control: oControl
-        }));
+            control: oControl,
+            
+            data: { property: filterField } 
+        }).addCustomData(new sap.ui.core.CustomData({
+        key: "property",
+        value: filterField
+    }))
+    );
     });
 
     // 🔹 personalization toolbar
@@ -141,8 +175,49 @@ sap.ui.define([
         persoService: persoService
     });
     this._oTPC.activate();
-}
-,
+},
+
+       _onLiveSearch: function () {
+    let view = this.getView();
+    let oTable = view.byId("idDynTable");
+    let oFilterBar = view.byId("filterBar");
+
+    let aFilters = [];
+
+    oFilterBar.getFilterGroupItems().forEach(oItem => {
+        let ctrl = oItem.getControl();
+        let sPath = oItem.data("property"); // 🔹 use property, not name
+
+        if (ctrl.isA("sap.m.Input")) {
+            let sValue = ctrl.getValue();
+            if (sValue) {
+                aFilters.push(new sap.ui.model.Filter(sPath, sap.ui.model.FilterOperator.Contains, sValue));
+            }
+        } 
+        else if (ctrl.isA("sap.m.ComboBox")) {
+            let oSelectedItem = ctrl.getSelectedItem();
+            if (oSelectedItem) {
+                let sKey = oSelectedItem.getKey();
+                aFilters.push(new sap.ui.model.Filter(sPath, sap.ui.model.FilterOperator.EQ, sKey));
+            }
+        } 
+        else if (ctrl.isA("sap.m.DatePicker")) {
+            let oDate = ctrl.getDateValue();
+            if (oDate) {
+                let sISODate = oDate.toISOString().split("T")[0];
+                if (sPath === "StartDate") {
+                    aFilters.push(new sap.ui.model.Filter(sPath, sap.ui.model.FilterOperator.GE, sISODate));
+                } else if (sPath === "EndDate") {
+                    aFilters.push(new sap.ui.model.Filter(sPath, sap.ui.model.FilterOperator.LE, sISODate));
+                }
+            }
+        }
+    });
+
+    // apply filters to table
+    oTable.getBinding("items").filter(aFilters);
+},
+
 
         // add/update toolbar
         _addToolbar: function (oTable) {
