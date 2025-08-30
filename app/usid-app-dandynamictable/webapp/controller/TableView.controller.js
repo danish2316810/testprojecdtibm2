@@ -17,29 +17,11 @@ sap.ui.define([
 
     return Controller.extend("usib.app.dan.usidappdandynamictable.controller.TableView", {
         onInit() {
-            // this._config=reuse.getConfig()
-            // this._defaultVisibleCols=reuse.getDefaultVisibleCols();
+            this._config=reuse.getConfig()
+            this._defaultVisibleCols=reuse.getDefaultVisibleCols();
 
-             this._config = {
-                Nominations: {
-                    entitySet: "/ContractErrorsView",
-                    columns: ["ID","terminalNo", "folioMo", "invNo", "lastRetry", "reprocessCount", "createdAt", "errorCode","Action"],
-                    filters: ["ID", "terminalNo", "folioMo", "errorCode"],
-                    visibleFilters: ["terminalNo", "errorCode"]
-                },
-                Contracts: {
-                    entitySet: "/NominationErrorsView",
-                    columns: ["ID", "nominationKey", "nominationItem", "diliveryReciept", "scheduleDate", "lastRetry", "reprocessCount", "createdAt", "errorCode", "Action"],
-                    filters: ["ID", "nominationKey", "nominationItem", "errorCode"],
-                    visibleFilters: ["ID", "errorCode"]
-                   
-                }
-            };
-            // Define initial visible columns per table type
-                this._defaultVisibleCols = {
-                    Nominations: ["terminalNo", "folioMo", "invNo"], // preselected
-                    Contracts: ["ID", "nominationKey", "nominationItem"], // preselected
-                };
+           
+            
             // 🔹 Error handling: Validate i18n model
             try {
                 this.oBundle = this.getOwnerComponent().getModel("i18n").getResourceBundle();
@@ -51,7 +33,7 @@ sap.ui.define([
                 return;
             }
 
-            // table configs
+            
            
 
             // dropdown model
@@ -324,6 +306,46 @@ sap.ui.define([
             } catch (oError) {
                 console.error("Error in _addToolbar:", oError);
             }
-        }
+        },
+        onLineItemClick:function(oEvent){
+            var oTable = oEvent.getSource();
+                var oSelectedItem = oTable.getSelectedItem();
+                if (!oSelectedItem) {
+                    return;
+                }
+
+                // Get table type (contractErrors or nominationErrors) - assume stored in table's custom data
+                var sTableType = oTable.data("tableType"); // e.g., "contractErrors" or "nominationErrors"
+                var oData = oSelectedItem.getBindingContext().getObject();
+
+                // Get key configuration
+                var oKeyModel = this.getView().getModel("keyConfig").getData();
+                var aKeys = oKeyModel[sTableType].keys;
+                var oDynamicKeys = {};
+                    aKeys.forEach(function (sKey) {
+                        oDynamicKeys[sKey] = oData[sKey] || "";
+                    });
+
+                    // Encode dynamic keys as a string (e.g., JSON or base64 for URL safety)
+                    var sDynamicKeys = btoa(JSON.stringify(oDynamicKeys)); // Base64 encode for simplicity
+
+                    // Navigate to detail page
+                    var oRouter = sap.ui.core.UIComponent.getRouterFor(this);
+                    oRouter.navTo("RouteDetailView", {
+                        tableType: sTableType,
+                        dynamicKeys: sDynamicKeys
+                    });
+            // let oObject = oEvent.getParameter("listItem").getBindingContext().getObject();
+            // let type = this.currentType;
+            // let type1= this._config[type].entitySet.replace(/^\//, "")
+                
+            // let oRouter = this.getOwnerComponent().getRouter()
+            // oRouter.navTo("RouteDetailView", {
+            //     id: oObject.ID,
+            //     entitySet: type1,
+            //     type:type
+                
+            // })
+         }
     });
 });

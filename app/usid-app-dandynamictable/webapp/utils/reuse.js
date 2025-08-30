@@ -4,26 +4,48 @@ sap.ui.define([], function () {
     return {
         getConfig: function () {
             return {
-                Nominations: {
+                Contracts: {
                     entitySet: "/ContractErrorsView",
-                    columns: ["ID", "terminalNo", "folioMo", "invNo", "lastRetry", "reprocessCount", "createdAt", "errorCode", "Action"],
+                    columns: ["ID","terminalNo", "folioMo", "invNo", "lastRetry", "reprocessCount", "createdAt", "errorCode","Action"],
                     filters: ["ID", "terminalNo", "folioMo", "errorCode"],
                     visibleFilters: ["terminalNo", "errorCode"]
                 },
-                Contracts: {
+                 Nominations: {
                     entitySet: "/NominationErrorsView",
                     columns: ["ID", "nominationKey", "nominationItem", "diliveryReciept", "scheduleDate", "lastRetry", "reprocessCount", "createdAt", "errorCode", "Action"],
                     filters: ["ID", "nominationKey", "nominationItem", "errorCode"],
                     visibleFilters: ["ID", "errorCode"]
+                   
                 }
             };
         },
 
         getDefaultVisibleCols: function () {
             return {
-                Nominations: ["terminalNo", "folioMo", "invNo","Action"],
-                Contracts: ["ID", "nominationKey", "nominationItem","Action"]
+                 Nominations: ["ID", "nominationKey", "nominationItem", "diliveryReciept", "scheduleDate","Action"],
+                    Contracts: ["ID","terminalNo", "folioMo", "invNo", "reprocessCount", "createdAt", "errorCode","Action"]
             };
         }
     };
 });
+
+ //  this._config = {
+            //     Contracts: {
+            //         entitySet: "/ContractErrorsView",
+            //         columns: ["ID","terminalNo", "folioMo", "invNo", "lastRetry", "reprocessCount", "createdAt", "errorCode","Action"],
+            //         filters: ["ID", "terminalNo", "folioMo", "errorCode"],
+            //         visibleFilters: ["terminalNo", "errorCode"]
+            //     },
+            //     Nominations: {
+            //         entitySet: "/NominationErrorsView",
+            //         columns: ["ID", "nominationKey", "nominationItem", "diliveryReciept", "scheduleDate", "lastRetry", "reprocessCount", "createdAt", "errorCode", "Action"],
+            //         filters: ["ID", "nominationKey", "nominationItem", "errorCode"],
+            //         visibleFilters: ["ID", "errorCode"]
+                   
+            //     }
+            // };
+
+            // this._defaultVisibleCols = {
+                //     Nominations: ["ID", "nominationKey", "nominationItem", "diliveryReciept", "scheduleDate","Action"], // preselected
+                //     Contracts: ["ID","terminalNo", "folioMo", "invNo", "reprocessCount", "createdAt", "errorCode","Action"], // preselected
+                // };
