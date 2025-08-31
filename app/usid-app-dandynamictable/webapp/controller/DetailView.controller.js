@@ -134,9 +134,7 @@ sap.ui.define([
         var sLabel = oLabels[sField] || sField;
         var sBindingField = sField;
         // Map field name mismatches
-        if (sField === "diliveryReciept") {
-          sBindingField = "deliveryReceipt"; // Adjust based on metadata
-        }
+       
 
         var oHBox = new sap.m.HBox({
           items: [

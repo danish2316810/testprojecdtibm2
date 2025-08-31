@@ -11,7 +11,7 @@ sap.ui.define([], function () {
                     visibleFilters: ["terminalNo", "errorCode"]
                 },
                  Nominations: {
-                    entitySet: "/NominationErrorsView",
+                    entitySet: "/NominationErrorsView",                 
                     columns: ["ID", "nominationKey", "nominationItem", "diliveryReciept", "scheduleDate", "lastRetry", "reprocessCount", "createdAt", "errorCode", "Action"],
                     filters: ["ID", "nominationKey", "nominationItem", "errorCode"],
                     visibleFilters: ["ID", "errorCode"]
@@ -21,7 +21,7 @@ sap.ui.define([], function () {
         },
 
         getDefaultVisibleCols: function () {
-            return {
+            return {                                                      
                  Nominations: ["ID", "nominationKey", "nominationItem", "diliveryReciept", "scheduleDate","Action"],
                     Contracts: ["ID","terminalNo", "folioMo", "invNo", "reprocessCount", "createdAt", "errorCode","Action"]
             };
