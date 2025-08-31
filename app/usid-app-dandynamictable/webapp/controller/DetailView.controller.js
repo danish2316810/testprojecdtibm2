@@ -39,16 +39,8 @@ sap.ui.define([
 
       // Get key configuration
       var oKeyModel = this.getView().getModel("keyConfig");
-      if (!oKeyModel) {
-        MessageBox.error("keyConfig model not found");
-        return;
-      }
+      
       var oKeyConfig = oKeyModel.getData()[sTableType];
-      if (!oKeyConfig) {
-        MessageBox.error("Configuration not found for table type: " + sTableType);
-        return;
-      }
-
       // Create detail model
       var oDetailModel = new JSONModel({
         tableType: sTableType,
@@ -56,10 +48,6 @@ sap.ui.define([
         labels: oKeyConfig.labels || {}
       });
       this.getView().setModel(oDetailModel, "detail");
-
-      // Log model data
-      console.log("Detail Model Data:", oDetailModel.getData());
-      console.log("Labels:", oKeyConfig.labels);
 
       // Build OData path
       var sEntitySet = oKeyConfig.entitySet;
@@ -78,17 +66,12 @@ sap.ui.define([
       var sSelect = aFields.join(",");
       var sFullPath = `${sPath}?$select=${sSelect}`;
 
-      // Log full path
-      console.log("OData Full Path:", sFullPath);
-
-      // Bind element
+            // Bind element
       oView.bindElement({
-        path: sPath,
-        parameters: {
-          $$groupId: "detailGroup",
-          $select: sSelect
-        },
+        path: sPath, 
+               
         events: {
+          
           dataReceived: function(oEvent) {
             var oData = oEvent.getParameter("data");
             console.log("OData Data Received:", oData);
