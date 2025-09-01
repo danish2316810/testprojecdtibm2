@@ -1,12 +1,4 @@
-sap.ui.define([
-  "sap/ui/core/mvc/Controller",
-    "sap/ui/model/json/JSONModel"
-], (BaseController,JSONModel) => {
-  "use strict";
-
-  return BaseController.extend("usib.app.dan.usidappdandynamictable.controller.App", {
-      onInit() {
-         var oKeyModel = new JSONModel({
+{
   "nominations": {
     "entitySet": "NominationErrorsView",
     "keys": ["ID", "nominationKey", "nominationItem"],
@@ -60,9 +52,4 @@ sap.ui.define([
       }
 
   }
-});
-                this.getView().setModel(oKeyModel, "keyConfig");
-      }
-      
-  });
-});
+}

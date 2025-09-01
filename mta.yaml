@@ -1,7 +1,7 @@
 _schema-version: 3.3.0
 ID: testprojectibm
 description: A simple CAP project.
-version: 1.0.7
+version: 1.0.8
 modules:
 - name: testprojectibm-srv
   type: nodejs

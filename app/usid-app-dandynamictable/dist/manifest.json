@@ -22,7 +22,7 @@
     },
     "dataSources": {
       "mainService": {
-        "uri": "/odata/v4/MyServiceMain/",
+        "uri": "/odata/v4/error-mangement/",
         "type": "OData",
         "settings": {
           "annotations": [],
@@ -120,12 +120,23 @@
           "target": [
             "TargetTableView"
           ]
+        },
+        {
+          "name": "RouteDetailView",
+          "pattern": "detailView/{tableType}/{dynamicKeys}",
+          "target": [
+            "TargetDetailView"
+          ]
         }
       ],
       "targets": {
         "TargetTableView": {
           "id": "TableView",
           "name": "TableView"
+        },
+        "TargetDetailView": {
+          "id": "DetailView",
+          "name": "DetailView"
         }
       }
     },
