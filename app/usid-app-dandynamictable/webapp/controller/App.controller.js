@@ -9,5 +9,6 @@ sap.ui.define([
          var oKeyModel = new JSONModel("model/keyData.json");
                 this.getView().setModel(oKeyModel, "keyConfig");
       }
+      
   });
 });

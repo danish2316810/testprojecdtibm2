@@ -59,8 +59,7 @@
                     nominationKey: keys.nominationKey,
                     nominationItem: keys.nominationItem
                 })
-                .and("status_code is not null")
-                .and("status_code != 'RP'")
+                
                 .orderBy("createdAt");
         } else if (entity.name.includes("ContractErrors")) {
             console.log('interfaceData.sourceSystem')

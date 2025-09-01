@@ -11,8 +11,9 @@ sap.ui.define([
     "sap/m/Input",
     "sap/m/Text",
     "../utils/persoService",
-    "../utils/reuse"
-], (Controller, JSONModel, Column, Label, Button, Toolbar, ToolbarSpacer, TablePersoController, Title, Input, Text, persoService,reuse) => {
+    "../utils/reuse",
+    "sap/m/MessageBox"
+], (Controller, JSONModel, Column, Label, Button, Toolbar, ToolbarSpacer, TablePersoController, Title, Input, Text, persoService,reuse,MessageBox) => {
     "use strict";
 
     return Controller.extend("usib.app.dan.usidappdandynamictable.controller.TableView", {
@@ -117,7 +118,10 @@ sap.ui.define([
                         if (fieldName === "Action") {
                             return new Button({
                                 text: "Reprocess",
-                                type: "Emphasized"
+                                type: "Emphasized",
+                                press:(oEvent)=>{
+                                    this._onReprocessBtn(oEvent)
+                                }
                             }).bindProperty("visible", {
                                 path: "enabledForReprocessing",
                                 formatter: (bValue) => bValue === true
@@ -346,6 +350,51 @@ sap.ui.define([
             //     type:type
                 
             // })
-         }
+         },
+         _onReprocessBtn: function(oEvent) {
+            let entityName = this.currentType === "Nominations" 
+    ? "NominationErrors" 
+    : "ContractErrors";
+    let mKeyConfig = {
+        "ContractErrors": ["ID", "terminalNo", "folioMo"],
+        "NominationErrors": ["ID", "nominationKey", "nominationItem"]
+    };
+
+              const oObject=oEvent.getSource().getBindingContext().getObject();
+              let aKeys = mKeyConfig[entityName].map(function (sKey) {
+        return {
+            keyName: sKey,
+            value: oObject[sKey]
+        };
+    });
+
+          const data={
+        entityName: entityName,
+        sourceSystem: oObject.sourceSystem || "GSAP", // or take from object
+        keys: aKeys
+    };
+          const modulePath="";//sap.ui.require.toUrl("usib/app/dan/usidappdandynamictable")
+          const dataFinal={data};
+          this.getView().setBusy(true)
+          $.ajax({
+            url:"/odata/v4/error-mangement/reprocessFromUi",
+            type:"POST",
+            data:JSON.stringify(dataFinal),
+            contentType:'application/json',
+            success:(odata)=>{
+                if(odata){
+                    this.getView().setBusy(false);
+                    MessageBox.show(odata.value)
+                    
+                    
+                }
+            },
+            error:(oError)=>{
+                this.getView().setBusy(false);
+                MessageBox.error(oError.value)
+            }
+          })
+
+        }
     });
 });
