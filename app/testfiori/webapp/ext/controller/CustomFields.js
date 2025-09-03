@@ -1,10 +1,25 @@
 sap.ui.define([
     "sap/m/MessageToast",
-    "sap/m/MessageBox"
-], function(MessageToast,MessageBox) {
+    "sap/m/MessageBox",
+    "sap/ui/core/format/DateFormat"
+], function(MessageToast,MessageBox,DateFormat) {
     'use strict';
-
+   const oDateTimeOffsetFormatter= DateFormat.getDateTimeInstance({
+        //  calendarType: CalendarType.Gregorain,
+         strictParsing:true
+   })
     return {
+        dateTimeFormat:function(sDate){
+            let rDate="";
+            if(sDate){
+                const oDate= new Date(sDate);
+                let utcDate=oDate.toUTCString();
+                utcDate=utcDate.replace("GMT","");
+                rDate=new Date(utcDate);
+                rDate=oDateTimeOffsetFormatter.format(rDate)
+            }
+            return rDate;
+        },
         onReprocessBtn: function(oEvent) {
               const oObject=oEvent.getSource().getBindingContext().getObject();
           const data={

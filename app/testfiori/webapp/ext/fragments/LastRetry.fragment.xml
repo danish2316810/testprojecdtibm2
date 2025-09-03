@@ -1,0 +1,7 @@
+<core:FragmentDefinition xmlns:core="sap.ui.core" xmlns="sap.m">
+
+    <Text id="idDateLastRetry"
+          core:require="{handler:'app/dan/testfiori/ext/controller/CustomFields'}"
+          text="{path:'lastRetry', formatter:'handler.dateTimeFormat'}"/>
+
+</core:FragmentDefinition>

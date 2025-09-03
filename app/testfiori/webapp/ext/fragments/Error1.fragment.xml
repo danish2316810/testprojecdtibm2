@@ -4,8 +4,4 @@
         id="idErrorCode"
         text="{path:'errorCode'}"
         press="handler.onErrorCodePress"/>
-
-
-
-
 </core:FragmentDefinition>

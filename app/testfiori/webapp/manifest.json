@@ -133,6 +133,17 @@
                     "DataField::errorCode":{
                       "availability":"Hidden"
                     },
+                    "DataField::lastRetry": {
+                      "availability": "Hidden"
+                    },
+                    "processDate":{
+                      "header":"{i18n>lastRetry}",
+                      "availability":"Default",
+                      "properties":[
+                        "lastRetry"
+                      ],
+                      "template":"app.dan.testfiori.ext.fragments.LastRetry"
+                    },
                     "ReProcess": {
                       "header": "action",
                       "availability": "Default",
