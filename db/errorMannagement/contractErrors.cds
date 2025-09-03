@@ -8,6 +8,7 @@ entity ContractErrors : cuid,managed {
     key terminalNo:Types.TerminalNo;
     key folioMo:Types.FolioMo;
         invNo:Types.InvNo not null;
+        rejectInd:String(1);
         lastRetry:DateTime;
         reprocessCount:Decimal(3) default 0;
         interfaceUUID: UUID not null;
@@ -21,6 +22,7 @@ left join InterfaceData on ContractErrors.interfaceUUID=InterfaceData.ID
     key ContractErrors.terminalNo as terminalNo,
         ContractErrors.folioMo as folioMo,
         ContractErrors.invNo as invNo,
+        ContractErrors.rejectInd as rejectInd,
         ContractErrors.lastRetry as lastRetry,
         ContractErrors.reprocessCount as reprocessCount,
         ContractErrors.createdBy as createdBy,
