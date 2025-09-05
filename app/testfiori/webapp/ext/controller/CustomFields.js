@@ -54,13 +54,41 @@ sap.ui.define([
             },
             error:(oError)=>{
                 this._view.setBusy(false);
-                MessageBox.error(odata.value)
+                MessageBox.error(oError.value)
             }
           })
 
         },
-        onRejectIndPress:function(){
-            MessageBox.show("I triggered")
+        onRejectIndPress:function(oEvent){
+            const oObject=oEvent.getSource().getBindingContext().getObject();
+            var mParameters = {
+                ID: oObject["ID"],
+                terminalNo: oObject["terminalNo"],
+                folioMo: oObject["folioMo"]                
+            };
+            let newValue= oObject["rejectInd"] 
+            this._view.setBusy(true);
+            let url = `/odata/v4/error-mangement/ContractErrors(ID='${oObject.ID}',terminalNo='${oObject.terminalNo}',folioMo='${oObject.folioMo}')/ErrorMangement.changeRejInd`;
+             $.ajax({
+            url:url,
+            type:"POST",
+            data: JSON.stringify({ newValue: newValue }),
+            contentType: "application/json",
+            success:(odata)=>{
+                if(odata){
+                    this._view.setBusy(false);
+                    MessageBox.show(odata.value)
+                    
+                    
+                }
+            },
+            error:(oError)=>{
+                this._view.setBusy(false);
+                MessageBox.error(oError.value)
+            }
+          })
+            
+            
         }
     };
 });

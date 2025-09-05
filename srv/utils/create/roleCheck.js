@@ -1,8 +1,6 @@
-// using from '../../customLogic';
-module.exports={onRoleCheck}
+// utils/create/roleCheck.js
 
-// customLogic.js
-function onRoleCheck(req) {
+function getRoles(req) {
   if (!req.user || req.user.id === "anonymous") {
     return { authorized: false, message: "Anonymous users are not allowed" };
   }
@@ -18,19 +16,4 @@ function onRoleCheck(req) {
   return { authorized: false, message: "No valid scope found" };
 }
 
-// module.exports = { checkUserRole };
-
-
-// function onRoleCheck(req){
-//     let allRoles=req.user
-//     if(allRoles){
-//         if(allRoles.is('User')){
-//             return;
-//         }else if(allRoles.is('Admin')){
-//             return req.error("Unauthoried");
-            
-//         }else{
-//             return ("no roles defined")
-//         }
-//     }
-// }
+module.exports = { getRoles };
