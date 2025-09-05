@@ -14,6 +14,14 @@ service ErrorMangement {
     view ContractErrorsView as select from app.ContractErrorsView{
         *,
     };
+    entity ContractErrors as select from app.ContractErrors{
+        *,
+    } actions {
+      // @(restrict:[
+      //   {grant:'EXECUTE', to:'User'}
+      // ])
+      action changeRejInd(newValue : String)returns ContractErrors
+    };
     view NominationErrorsView as select from app.NominationErrorsView{
         *,
     };

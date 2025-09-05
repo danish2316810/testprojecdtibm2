@@ -11,15 +11,17 @@ annotate service.ContractErrorsView with @(
 
     UI.LineItem : [
         {
-                $Type : 'UI.DataField',
-                Label : 'sourceSystem',
-                Value : sourceSystem,
-            },
+            $Type : 'UI.DataField',
+            Label : 'sourceSystem',
+            Value : sourceSystem,
+        },
+                      
         {
             $Type : 'UI.DataField',
             Label : '{i18n>TerminalNo}',
             Value : terminalNo,
         },
+        
         {
             $Type : 'UI.DataField',
             Label : 'folioMo',
@@ -46,6 +48,7 @@ annotate service.ContractErrorsView with @(
 annotate service.ContractErrorsView with {
     // errorCode @UI.lineItem.hidden;
     errorDesc @UI.Hidden;
+    rejectInd @UI.Hidden;
     errorEnabledForReprocessing @UI.Hidden;
 };
 
@@ -112,6 +115,7 @@ annotate service.ContractErrorsView with @(UI:{
 },
 );
 annotate service.ContractErrorsView with {
+    
     errorCode @(
         Common.ValueList : {
             $Type : 'Common.ValueListType',

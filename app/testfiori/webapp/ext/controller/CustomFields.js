@@ -58,6 +58,9 @@ sap.ui.define([
             }
           })
 
+        },
+        onRejectIndPress:function(){
+            MessageBox.show("I triggered")
         }
     };
 });

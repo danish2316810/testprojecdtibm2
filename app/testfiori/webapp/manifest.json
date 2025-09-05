@@ -136,7 +136,15 @@
                     "DataField::lastRetry": {
                       "availability": "Hidden"
                     },
-                    "processDate":{
+                    "rejectInd":{
+                      "header":"rejectInd",
+                      "availability":"Default",
+                      "properties":[
+                        "rejectInd"
+                      ],
+                      "template":"app.dan.testfiori.ext.fragments.RejectInd"
+                    },
+                    "LastRetry":{
                       "header":"{i18n>lastRetry}",
                       "availability":"Default",
                       "properties":[
