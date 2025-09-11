@@ -1,2 +1,0 @@
-sap.ui.define(["sap/ui/core/UIComponent","usib/app/dan/usidappdandynamictable/model/models"],(e,t)=>{"use strict";return e.extend("usib.app.dan.usidappdandynamictable.Component",{metadata:{manifest:"json",interfaces:["sap.ui.core.IAsyncContentCreation"]},init(){e.prototype.init.apply(this,arguments);this.setModel(t.createDeviceModel(),"device");let i=this.getRouter();i.initialize();i.navTo("RouteTableView",{},true)}})});
-//# sourceMappingURL=Component.js.map
