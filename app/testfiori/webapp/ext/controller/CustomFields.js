@@ -77,7 +77,8 @@ sap.ui.define([
             success:(odata)=>{
                 if(odata){
                     this._view.setBusy(false);
-                    MessageBox.show(odata.value)
+                    MessageBox.show(`value changed to:"${odata.REJECTIND}"`)
+                    this._view.byId("app.dan.testfiori::ContractErrorsViewList--fe::table::ContractErrorsView::LineItem-innerTable").getBinding("items").refresh()
                     
                     
                 }
