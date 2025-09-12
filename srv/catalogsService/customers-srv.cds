@@ -12,6 +12,7 @@ service MyService {
       }
     ])
     entity CUST as projection on app.CUSTOMERS;
+    action uploadCustomer(fileName : String, payload : String) returns String;
     entity SO as projection on app.salesOrder;
 
     action insertDataIntoDb(data:{

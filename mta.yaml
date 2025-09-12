@@ -52,6 +52,10 @@ modules:
       - usibappdanusidappdandynamictable.zip
       name: usibappdanusidappdandynamictable
       target-path: resources/
+    - artifacts:
+      - usibappdanuisdappupload.zip
+      name: usibappdanuisdappupload
+      target-path: resources/
 - name: testmay11-destination-content
   type: com.sap.application.content
   requires:
@@ -116,6 +120,16 @@ modules:
 - name: usibappdanusidappdandynamictable
   type: html5
   path: app/usid-app-dandynamictable
+  build-parameters:
+    build-result: dist
+    builder: custom
+    commands:
+    - npm install
+    - npm run build:cf
+    supported-platforms: []
+- name: usibappdanuisdappupload
+  type: html5
+  path: app/uisd-app-upload
   build-parameters:
     build-result: dist
     builder: custom

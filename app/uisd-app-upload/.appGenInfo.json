@@ -1,0 +1,24 @@
+{
+  "generationParameters": {
+    "generationDate": "Fri Sep 12 2025 04:32:51 GMT+0000 (Coordinated Universal Time)",
+    "generatorPlatform": "SAP Business Application Studio",
+    "serviceType": "Local CAP",
+    "metadataFilename": "",
+    "serviceUrl": "http://localhost:4004/odata/v4/MyServiceMain/",
+    "appName": "uisd-app-upload",
+    "appTitle": "File Upload",
+    "appDescription": "An SAP Fiori application.",
+    "appNamespace": "usib.app.dan",
+    "ui5Theme": "sap_horizon",
+    "ui5Version": "1.140.0",
+    "enableCodeAssist": false,
+    "enableEslint": false,
+    "enableTypeScript": false,
+    "showMockDataInfo": false,
+    "generatorVersion": "1.18.6",
+    "template": "Basic V4",
+    "generatorName": "SAP Fiori Application Generator",
+    "entityRelatedConfig": [],
+    "launchText": "To launch the generated app, start your CAP project:  and navigate to the following location in your browser:\n\nhttp://localhost:4004/uisd-app-upload/webapp/index.html"
+  }
+}

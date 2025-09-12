@@ -7,7 +7,7 @@ default-*.json
 .cdsrc-private.json
 gen/
 node_modules/
-target/
+**/target
 
 # Web IDE, App Studio
 .che/
@@ -38,3 +38,9 @@ db/.env
 # auto generated wildcard
 .env1
 srv/test.http
+**/dist
+
+app/**/node_modules
+
+Makefile*.mta
+/dist

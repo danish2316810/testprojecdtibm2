@@ -1,0 +1,15 @@
+<mvc:View controllerName="usib.app.dan.uisdappupload.controller.UploadView"
+    xmlns:mvc="sap.ui.core.mvc"
+    xmlns="sap.m"
+    xmlns:unified="sap.ui.unified">
+    <Page id="page" title="{i18n>title}">
+        <HBox id="idHboxUpload" class="sapUiLargeMargin">
+            <unified:FileUploader 
+                id="idFileUploader" fileType="xlsx,csv" change="onFileChange"
+                placeholder="{i18n>SelectFile}" style="Emphasized" >
+            </unified:FileUploader>
+            <Button id="idButFileUpload" text="{i18n>Upload}" press="onFileUpload" class="sapUiSmallMarginBegin"/>
+            <Button id="idButClear" text="{i18n>Clear}" press="onClear" class="sapUiSmallMarginBegin"/>
+        </HBox>
+    </Page>
+</mvc:View>
