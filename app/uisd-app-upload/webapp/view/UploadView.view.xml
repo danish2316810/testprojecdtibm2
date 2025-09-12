@@ -10,6 +10,11 @@
             </unified:FileUploader>
             <Button id="idButFileUpload" text="{i18n>Upload}" press="onFileUpload" class="sapUiSmallMarginBegin"/>
             <Button id="idButClear" text="{i18n>Clear}" press="onClear" class="sapUiSmallMarginBegin"/>
+            <Button id="idButDownload" 
+                    text="Download Template" 
+                    press="onDownloadTemplate" 
+                    class="sapUiSmallMarginBegin"/>
+
         </HBox>
     </Page>
 </mvc:View>
