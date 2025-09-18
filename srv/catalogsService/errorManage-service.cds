@@ -50,4 +50,5 @@ service ErrorMangement {
     
   }
   action reprocessFromUi(data:payloadFromUi) returns String;
+  action clearEntries() returns String;
 }

@@ -57,13 +57,13 @@ Content-Type: application/json
       "errorCode":"3",
       "iFlowName":"i01",
       "httpErrorCode":"32",
-      "enabledForReprocessing":"Y",
+      "enabledForReprocessing":"N",
       "fields":[
-        {"keys":"ID","value":"008"},
-        {"keys":"terminalNo","value":"T005"},
-        {"keys":"folioMo","value":"3"},
-        {"keys":"invNo","value":"In03"},
-        {"keys":"rejectInd","value":"X"}
+        {"keys":"ID","value":"002"},
+        {"keys":"terminalNo","value":"T002"},
+        {"keys":"folioMo","value":"2"},
+        {"keys":"invNo","value":"In02"},
+        {"keys":"rejectInd","value":"I"}
 
       ]
     }
@@ -78,14 +78,14 @@ Content-Type: application/json
       "source":"Endure",
       "interface":"Nomination",
       "errorCode":"1",
-      "iFlowName":"i01",
+      "iFlowName":"i02",
       "httpErrorCode":"32",
       "enabledForReprocessing":"Y",
       "fields":[
-        {"keys":"ID","value":"002"},
-        {"keys":"nominationKey","value":"002"},
-        {"keys":"nominationItem","value":"002"},
-        {"keys":"scheduleDate","value":"2025-08-30T11:59:00Z"}
+        {"keys":"ID","value":"004"},
+        {"keys":"nominationKey","value":"004"},
+        {"keys":"nominationItem","value":"004"},
+        {"keys":"scheduleDate","value":"2025-09-15T11:59:00Z"}
 
       ]
     }
@@ -101,3 +101,5 @@ Content-Type: application/json
 {
   "newValue": "g"
 }
+###
+POST  http://localhost:4004/odata/v4/error-mangement/clearEntries
