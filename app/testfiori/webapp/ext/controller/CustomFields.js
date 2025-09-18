@@ -48,8 +48,8 @@ sap.ui.define([
                 if(odata){
                     this._view.setBusy(false);
                     MessageBox.show(odata.value)
-                    
-                    
+                    this._view.byId("app.dan.testfiori::ContractErrorsViewList--fe::table::ContractErrorsView::LineItem-innerTable").getBinding("items").refresh()
+                                       
                 }
             },
             error:(oError)=>{

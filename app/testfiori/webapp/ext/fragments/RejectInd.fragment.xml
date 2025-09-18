@@ -5,8 +5,8 @@
                   text="{path:'rejectInd'}"
                   visible="{= %{path:'rejectInd'} !== 'X'}"
                   press="handler.onRejectIndPress" />
-      <Text id="idTextInd"
-            text="{path:'rejectInd'}"
-            visible="{= %{path:'rejectInd'} === 'X'}" />
+            <Text id="idTextInd"
+                  text="{path:'rejectInd'}"
+                  visible="{= %{path:'rejectInd'} === 'X'}" />
       </VBox>
 </core:FragmentDefinition>

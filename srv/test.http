@@ -57,13 +57,13 @@ Content-Type: application/json
       "errorCode":"3",
       "iFlowName":"i01",
       "httpErrorCode":"32",
-      "enabledForReprocessing":"N",
+      "enabledForReprocessing":"Y",
       "fields":[
         {"keys":"ID","value":"002"},
         {"keys":"terminalNo","value":"T002"},
-        {"keys":"folioMo","value":"2"},
-        {"keys":"invNo","value":"In02"},
-        {"keys":"rejectInd","value":"I"}
+        {"keys":"folioMo","value":"1"},
+        {"keys":"invNo","value":"In01"},
+        {"keys":"rejectInd","value":"X"}
 
       ]
     }
@@ -82,9 +82,9 @@ Content-Type: application/json
       "httpErrorCode":"32",
       "enabledForReprocessing":"Y",
       "fields":[
-        {"keys":"ID","value":"004"},
-        {"keys":"nominationKey","value":"004"},
-        {"keys":"nominationItem","value":"004"},
+        {"keys":"ID","value":"003"},
+        {"keys":"nominationKey","value":"003"},
+        {"keys":"nominationItem","value":"003"},
         {"keys":"scheduleDate","value":"2025-09-15T11:59:00Z"}
 
       ]

@@ -20,7 +20,7 @@ left join InterfaceData on ContractErrors.interfaceUUID=InterfaceData.ID
 {
     key ContractErrors.ID as ID,
     key ContractErrors.terminalNo as terminalNo,
-        ContractErrors.folioMo as folioMo,
+    key ContractErrors.folioMo as folioMo,
         ContractErrors.invNo as invNo,
         ContractErrors.rejectInd as rejectInd,
         ContractErrors.lastRetry as lastRetry,

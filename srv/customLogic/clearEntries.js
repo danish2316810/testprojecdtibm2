@@ -5,6 +5,7 @@ module.exports = {
 };
 
 async function onClearEntries(req) {
+    console.log("hi danish job is triggered")
   const tx = cds.tx(req); // start a transaction
   try {
     const entities = cds.entities("app.dan");
