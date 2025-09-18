@@ -9,7 +9,7 @@ async function onClearEntries(req) {
   try {
     const entities = cds.entities("app.dan");
     const pastDate = new Date();
-    pastDate.setDate(pastDate.getDate() - 10);
+    pastDate.setDate(pastDate.getDate() - 0);
 
     const deleteErrorEntriesFrom = ["ContractErrors", "NominationErrors"];
     const rError = await deleteErrorTableEntries(deleteErrorEntriesFrom, entities, pastDate, tx);

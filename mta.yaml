@@ -10,6 +10,7 @@ modules:
   - name: testprojectibm-auth
   - name: testprojectibm-db
   - name: testprojectibm-destination
+  - name: testprojectibm-job
   provides:
   - name: srv-api
     properties:
