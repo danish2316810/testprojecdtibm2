@@ -139,17 +139,43 @@
                   "tableSettings": {
                     "type": "ResponsiveTable"
                   },
-                   "columns": {
+                  "columns": {
+                    "DataField::errorCode":{
+                      "availability":"Hidden"
+                    },
+                    "DataField::lastRetry": {
+                      "availability": "Hidden"
+                    },
+                    "rejectInd":{
+                      "header":"rejectInd",
+                      "availability":"Default",
+                      "properties":[
+                        "rejectInd"
+                      ],
+                      "template":"app.dan.testfiori.ext.fragments.RejectInd"
+                    },
+                    "LastRetry":{
+                      "header":"{i18n>lastRetry}",
+                      "availability":"Default",
+                      "properties":[
+                        "lastRetry"
+                      ],
+                      "template":"app.dan.testfiori.ext.fragments.LastRetry"
+                    },
                     "ReProcess": {
                       "header": "action",
                       "availability": "Default",
                       "position": {
                         "anchor": "DataField::reprocessCount"
                       },
+                      "properties": [
+                        "errorEnabledForReprocessing",
+                        "interfaceEnabledForReprocessing"
+                      ],
                       "template": "app.dan.testfiori.ext.fragments.ReProcess"
                     },
                     "Error": {
-                      "header": "{i18n>ErrorCode}",
+                      "header": "Error",
                       "availability": "Default",
                       "properties": [
                         "errorCode",
@@ -157,10 +183,11 @@
                       ],
                       "template": "app.dan.testfiori.ext.fragments.Error1"
                     }
+                   
                   }
-                  
                 }
-              }
+              },
+              "initialLoad": "Enabled"
             }
           }
         },

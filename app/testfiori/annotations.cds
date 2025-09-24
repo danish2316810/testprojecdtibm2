@@ -3,22 +3,25 @@ annotate service.ContractErrorsView with @(
     UI.SelectionFields : [
         terminalNo,
         folioMo,
-        sourceSystem
+        sourceSystem,
+        errorCode
        
     ],
    
 
     UI.LineItem : [
         {
-                $Type : 'UI.DataField',
-                Label : 'sourceSystem',
-                Value : sourceSystem,
-            },
+            $Type : 'UI.DataField',
+            Label : 'sourceSystem',
+            Value : sourceSystem,
+        },
+                      
         {
             $Type : 'UI.DataField',
             Label : '{i18n>TerminalNo}',
             Value : terminalNo,
         },
+        
         {
             $Type : 'UI.DataField',
             Label : 'folioMo',
@@ -43,8 +46,9 @@ annotate service.ContractErrorsView with @(
 );
 
 annotate service.ContractErrorsView with {
-    errorCode @UI.Hidden;
+    // errorCode @UI.lineItem.hidden;
     errorDesc @UI.Hidden;
+    rejectInd @UI.Hidden;
     errorEnabledForReprocessing @UI.Hidden;
 };
 
@@ -110,3 +114,42 @@ annotate service.ContractErrorsView with @(UI:{
    
 },
 );
+annotate service.ContractErrorsView with {
+    
+    errorCode @(
+        Common.ValueList : {
+            $Type : 'Common.ValueListType',
+            CollectionPath : 'ErrorCodes',
+            Parameters : [
+                {
+                    $Type : 'Common.ValueListParameterInOut',
+                    LocalDataProperty : errorCode,
+                    ValueListProperty : 'errorCode',
+                },
+                {
+                    $Type : 'Common.ValueListParameterDisplayOnly',
+                    ValueListProperty : 'errorDesc',
+                },
+                {
+                    $Type : 'Common.ValueListParameterDisplayOnly',
+                    ValueListProperty : 'enabledForReprocessing',
+                },
+            ],
+            PresentationVariantQualifier : 'vh_ContractErrorsView_errorCode',
+        },
+        Common.ValueListWithFixedValues : true,
+)};
+
+annotate service.ErrorCodes with @(
+    UI.PresentationVariant #vh_ContractErrorsView_errorCode : {
+        $Type : 'UI.PresentationVariantType',
+        SortOrder : [
+            {
+                $Type : 'Common.SortOrderType',
+                Property : errorCode,
+                Descending : false,
+            },
+        ],
+    }
+);
+

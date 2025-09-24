@@ -10,24 +10,29 @@
     "@sap/cds": "^8",
     "@sap/xsenv": "^6.0.0",
     "@sap/xssec": "^4",
+    "csv-parse": "^6.1.0",
     "express": "^4",
-    "uuid": "^11.1.0"
+    "uuid": "^11.1.0",
+    "xlsx": "^0.18.5"
   },
   "devDependencies": {
     "@cap-js/cds-types": "^0.10.0",
     "@cap-js/sqlite": "^1",
     "@sap/cds-dk": "^8",
+    "cds-plugin-ui5": "^0.13.0",
     "mbt": "^1.2.29",
     "rimraf": "^5.0.5"
   },
   "scripts": {
     "start": "cds-serve",
-    "watch-actionui": "cds watch --open actionui/webapp/index.html?sap-ui-xx-viewCache=false",
+    "watch-actionui": "cds watch --open ap.actionui/index.html?sap-ui-xx-viewCache=false --livereload false",
     "undeploy": "cf undeploy testprojectibm --delete-services --delete-service-keys --delete-service-brokers",
     "build": "rimraf resources mta_archives && mbt build --mtar archive",
     "deploy": "cf deploy mta_archives/archive.mtar --retries 1",
     "watch-list-report-for-internalisation": "cds watch --open list-report-for-internalisation/webapp/index.html?sap-ui-xx-viewCache=false",
-    "watch-testfiori": "cds watch --open testfiori/webapp/index.html?sap-ui-xx-viewCache=false"
+    "watch-testfiori": "cds watch --open app.dan.testfiori/index.html?sap-ui-xx-viewCache=false --livereload false",
+    "watch-usid-app-dandynamictable": "cds watch --open usid-app-dandynamictable/webapp/index.html?sap-ui-xx-viewCache=false",
+    "watch-uisd-app-upload": "cds watch --open usib.app.dan.uisdappupload/index.html?sap-ui-xx-viewCache=false --livereload false"
   },
   "cds": {
     "requires": {
@@ -44,5 +49,8 @@
     "app/list-report-for-internalisation",
     "app/app-dan-actionui",
     "app/testfiori"
+  ],
+  "workspaces": [
+    "app/*"
   ]
 }

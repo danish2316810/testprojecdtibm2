@@ -1,0 +1,135 @@
+{
+  "_version": "1.76.0",
+  "sap.app": {
+    "id": "usib.app.dan.uisdappupload",
+    "type": "application",
+    "i18n": "i18n/i18n.properties",
+    "applicationVersion": {
+      "version": "0.0.1"
+    },
+    "title": "{{appTitle}}",
+    "description": "{{appDescription}}",
+    "resources": "resources.json",
+    "sourceTemplate": {
+      "id": "@sap/generator-fiori:basic",
+      "version": "1.18.6",
+      "toolsId": "772bfa33-d924-4ea4-9ec9-e858f7ca6fcd"
+    },
+    "dataSources": {
+      "mainService": {
+        "uri": "/odata/v4/MyServiceMain/",
+        "type": "OData",
+        "settings": {
+          "annotations": [],
+          "odataVersion": "4.0"
+        }
+      }
+    },
+    "crossNavigation": {
+      "inbounds": {
+        "upload-MANAGE": {
+          "semanticObject": "upload",
+          "action": "MANAGE",
+          "title": "{{upload-MANAGE.flpTitle}}",
+          "subTitle": "{{upload-MANAGE.flpSubtitle}}",
+          "signature": {
+            "parameters": {},
+            "additionalParameters": "allowed"
+          }
+        }
+      }
+    }
+  },
+  "sap.ui": {
+    "technology": "UI5",
+    "icons": {
+      "icon": "",
+      "favIcon": "",
+      "phone": "",
+      "phone@2": "",
+      "tablet": "",
+      "tablet@2": ""
+    },
+    "deviceTypes": {
+      "desktop": true,
+      "tablet": true,
+      "phone": true
+    }
+  },
+  "sap.ui5": {
+    "flexEnabled": false,
+    "dependencies": {
+      "minUI5Version": "1.140.0",
+      "libs": {
+        "sap.m": {},
+        "sap.ui.core": {}
+      }
+    },
+    "contentDensities": {
+      "compact": true,
+      "cozy": true
+    },
+    "models": {
+      "i18n": {
+        "type": "sap.ui.model.resource.ResourceModel",
+        "settings": {
+          "bundleName": "usib.app.dan.uisdappupload.i18n.i18n"
+        }
+      },
+      "": {
+        "dataSource": "mainService",
+        "preload": true,
+        "settings": {
+          "operationMode": "Server",
+          "autoExpandSelect": true,
+          "earlyRequests": true
+        }
+      }
+    },
+    "resources": {
+      "css": [
+        {
+          "uri": "css/style.css"
+        }
+      ]
+    },
+    "routing": {
+      "config": {
+        "routerClass": "sap.m.routing.Router",
+        "controlAggregation": "pages",
+        "controlId": "app",
+        "transition": "slide",
+        "type": "View",
+        "viewType": "XML",
+        "path": "usib.app.dan.uisdappupload.view",
+        "async": true,
+        "viewPath": "usib.app.dan.uisdappupload.view"
+      },
+      "routes": [
+        {
+          "name": "RouteUploadView",
+          "pattern": ":?query:",
+          "target": [
+            "TargetUploadView"
+          ]
+        }
+      ],
+      "targets": {
+        "TargetUploadView": {
+          "id": "UploadView",
+          "name": "UploadView"
+        }
+      }
+    },
+    "rootView": {
+      "viewName": "usib.app.dan.uisdappupload.view.App",
+      "type": "XML",
+      "id": "App",
+      "async": true
+    }
+  },
+  "sap.cloud": {
+    "public": true,
+    "service": "app.dan"
+  }
+}

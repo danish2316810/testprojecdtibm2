@@ -20,11 +20,11 @@ POST http://localhost:4004/odata/v4/MyServiceMain/CUST
 Content-Type: application/json
 
 {
-  "CUSTOMER_NAME": "wipro3",
-  "CURRENCY": "inr",
-  "COUNTRY": "india"
+  "CUSTOMER_NAME": "tata",
+  "CURRENCY": "INR",
+  "COUNTRY": "NEPAL"
 }
-###
+### '003'	'T003'	'2'
 PUT http://localhost:4004/odata/v4/MyServiceMain/CUST(8e0b26ee-2c6c-45ca-b402-fc5214dbe592)
 Content-Type: application/json
 
@@ -52,18 +52,54 @@ Content-Type: application/json
 
   {
     "data": {
-      "source":"GSAP",
+      "source":"TMS-GSAP",
       "interface":"Contract",
-      "errorCode":"1",
+      "errorCode":"3",
       "iFlowName":"i01",
       "httpErrorCode":"32",
-      "enabledForReprocessing":"N",
+      "enabledForReprocessing":"Y",
       "fields":[
-        {"keys":"ID","value":"003"},
-        {"keys":"terminalNo","value":"T003"},
-        {"keys":"folioMo","value":"2"},
-        {"keys":"invNo","value":"In02"}
+        {"keys":"ID","value":"002"},
+        {"keys":"terminalNo","value":"T002"},
+        {"keys":"folioMo","value":"1"},
+        {"keys":"invNo","value":"In01"},
+        {"keys":"rejectInd","value":"X"}
 
       ]
     }
   }
+
+###
+POST http://localhost:4004/odata/v4/error-mangement/createErrorRecord
+Content-Type: application/json
+
+  {
+    "data": {
+      "source":"Endure",
+      "interface":"Nomination",
+      "errorCode":"1",
+      "iFlowName":"i02",
+      "httpErrorCode":"32",
+      "enabledForReprocessing":"Y",
+      "fields":[
+        {"keys":"ID","value":"003"},
+        {"keys":"nominationKey","value":"003"},
+        {"keys":"nominationItem","value":"003"},
+        {"keys":"scheduleDate","value":"2025-09-15T11:59:00Z"}
+
+      ]
+    }
+  }
+### 		(ID='003',folioMo='T003',terminalNo='2')
+GET http://localhost:4004/odata/v4/error-mangement/ContractErrors(ID='002',terminalNo='T001',folioMo='1')
+
+
+### 		(ID='003',folioMo='T003',terminalNo='2')
+POST http://localhost:4004/odata/v4/error-mangement/ContractErrors(ID='002',terminalNo='T001',folioMo='1')/ErrorMangement.changeRejInd
+Content-Type: application/json
+
+{
+  "newValue": "g"
+}
+###
+POST  http://localhost:4004/odata/v4/error-mangement/clearEntries
