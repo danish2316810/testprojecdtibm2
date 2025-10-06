@@ -108,7 +108,7 @@ sap.ui.define([
                     oTable.addColumn(new Column({
                         id: oView.createId(`col-${type.toLowerCase()}-${fieldName}-${Date.now()}-${index}`),
                         header: new Label({ text: sLabel }),
-                        visible: this._defaultVisibleCols[type].includes(fieldName) // ✅ initial visibility
+                        visible: this._defaultVisibleCols[type].includes(fieldName) 
                     }));
                 });
 

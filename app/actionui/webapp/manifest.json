@@ -109,9 +109,7 @@
         {
           "name": "RouteView1",
           "pattern": ":?query:",
-          "target": [
-            "TargetView1"
-          ]
+          "target": ["TargetView1"]
         }
       ],
       "targets": {
@@ -126,11 +124,7 @@
       "type": "XML",
       "id": "App",
       "async": true
-    },
-  "sap.cloud": {
-    "public": true,
-    "service": "app.dan"
-  }
+    }
   },
   "sap.cloud": {
     "public": true,

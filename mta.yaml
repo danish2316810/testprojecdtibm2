@@ -10,7 +10,7 @@ modules:
   - name: testprojectibm-auth
   - name: testprojectibm-db
   - name: testprojectibm-destination
-  - name: testprojectibm-job
+  # - name: testprojectibm-job
   provides:
   - name: srv-api
     properties:
@@ -184,14 +184,14 @@ resources:
   parameters:
     service: html5-apps-repo
     service-plan: app-host
-- name: testprojectibm-job
-  type: org.cloudfoundry.managed-service
-  parameters:
-    config:
-      enable-xsuaa-support: true
-    service: jobscheduler
-    service-name: job-scheduler-cool
-    service-plan: lite
+# - name: testprojectibm-job
+#   type: org.cloudfoundry.managed-service
+#   parameters:
+#     config:
+#       enable-xsuaa-support: true
+#     service: jobscheduler
+#     service-name: job-scheduler-cool
+#     service-plan: lite
 parameters:
   deploy_mode: html5-repo
   enable-parallel-deployments: true
